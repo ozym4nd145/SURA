@@ -1,0 +1,3 @@
+https://www.cs.utexas.edu/~chaoyeh/web_action_data/dataset_list.html
+http://www.cs.utexas.edu/users/ml/clamp/videoDescription/
+http://www.mpi-inf.mpg.de/departments/computer-vision-and-multimodal-computing/research/vision-and-language/mpii-movie-description-dataset/
