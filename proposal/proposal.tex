@@ -147,7 +147,10 @@
 		%\begin{itemize}
 			\subsection{Deep Learning}
 				Deep Learning is a branch of machine learning in which multiple parameter based models are used in series. In a deep network, there are many layers between the input and output, allowing the algorithm to use multiple processing layers, composed of \textbf{multiple linear and non-linear transformations}. At each layer, the signal is transformed by a processing unit, like an artificial neuron, whose parameters are \textbf{'learned'} through training. Deep Learning has been shown to excel in tasks where the goal is to find \textbf{intuitive} patterns in the data. In particular, in the field of Computer Vision, deep networks are increasingly used to extract \textbf{feature descriptions and interrelationships} from images.
-
+				\begin{figure}[ht!]
+					\includegraphics[width=14cm]{blog_deeplearning3.jpg}
+					\caption{Illustration of Deep Learning as applied to Vision\label{fig2}}
+				\end{figure}	
 			\subsection{Convolutional Neural Networks}
 			Convolutional Neural Networks (CNN, or ConvNet) are a type of feed-forward artificial neural network in which the connectivity pattern between the neurons is inspired by the organization of the animal visual cortex. Individual cortical neurons respond to stimuli in a restricted region of space known as the \textbf{receptive field}. The receptive fields of different neurons partially overlap such that they tile the visual field. The response of an individual neuron to stimuli within its receptive field can be approximated mathematically by a \textbf{convolution operation}. A Convolutional Neural Network consists of the following layers.
 				
@@ -164,14 +167,32 @@
 					\caption{A Typical Comvolutional Neural Network\label{fig4}}
 				\end{figure}
 			\subsection{Long Short Term Memory Networks}
-								
+			    \begin{figure}[ht!]
+					\includegraphics[width=\textwidth]{LSTM_unit.png}
+					\caption{A single LSTM unit\label{fig6}}
+				\end{figure}
+				Long Short Term Memory Networks are a type of Recurrent Neural Networks. Both of them are networks based upon recursion, so that variable length inputs can be handled. LSTM's are specifically used for making RNNs learn long term patterns since traditional RNNs tend to \textbf{favour short term temporal dynamics}. It can be difficult to train traditional RNNs to learn long-term dynamics, likely due in part to the \textbf{vanishing and exploding gradients problem} that can result from propagating the gradients down through the many layers of the recurrent network, each corresponding to a particular time step. LSTMs provide a solution by incorporating memory units that explicitly allow the network to learn when to ``forget'' previous hidden states and when to update hidden states given new information.
+				
 
-			\subsection{Transfer Learning}
+
+				
+			\subsection{Training Deep Neural Networks}
+				A Deep Neural Network is at it's core a parameter based function. All of these parameters are  \textbf{trained} automatically from inputs and expected output tuples (training data). The training process revolves around minimizing a particular cost function using methods like \textbf{Stochastic gradient descent}. The input is given to the network in a feed forward fashion and the parameters aremodified from the last layer to the first (\textbf{Backpropogation}). Neural Networks by design require huge amounts of training data and take a large time to get trained. For some perspective most current state of the art image classifiers have $> 100 million$ parameters and are trained on more than 1.2 million images. 
+				\begin{figure}[ht!]
+					\includegraphics[width=14cm]{training_inference1.png}
+					\caption{Training and Inference Processes\label{fig5}}
+				\end{figure}
 
 			\subsection{Finetuning}
-			
-
-			\subsection{Training Data}
+				Fine-tuning a network is a procedure based on the concept of
+				\textbf{transfer learning}. We start training a CNN to learn features for a broad domain with a
+				classification function targeted at minimizing error in that domain. Then, we
+				replace the classification function and \textbf{optimize the network} again to minimize
+				error in another, more specific domain. Under this setting, we are transferring
+				the features and the parameters of the network from the broad domain to the
+				special one. In our project we will need to use the pre-trained image classification models 
+				to actually decode individual frames of the video, thus we are planning to \textbf{fine-tune those models
+				with respect to the output of our LSTMs}.
 
 
 
