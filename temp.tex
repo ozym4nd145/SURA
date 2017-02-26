@@ -129,40 +129,40 @@
 
 \section{Basic Concepts} 
 		%\begin{itemize}
-			\subsection{Deep Learning}
-				Deep Learning is a branch of machine learning in which multiple parameter based models are used in series. In a deep network, there are many layers between the input and output, allowing the algorithm to use multiple processing layers, composed of \textbf{multiple linear and non-linear transformations}. At each layer, the signal is transformed by a processing unit, like an artificial neuron, whose parameters are \textbf{'learned'} through training. Deep Learning has been shown to excel in tasks where the goal is to find \textbf{intuitive} patterns in the data. In particular, in the field of Computer Vision, deep networks are increasingly used to extract \textbf{feature descriptions and interrelationships} from images.
-
 			\subsection{Convolutional Neural Networks}
-			Convolutional Neural Networks (CNN, or ConvNet) are a type of feed-forward artificial neural network in which the connectivity pattern between the neurons is inspired by the organization of the animal visual cortex. Individual cortical neurons respond to stimuli in a restricted region of space known as the \textbf{receptive field}. The receptive fields of different neurons partially overlap such that they tile the visual field. The response of an individual neuron to stimuli within its receptive field can be approximated mathematically by a \textbf{convolution operation}. A Convolutional Neural Network consists of the following layers.
-				
-			%skipping Relu layer since its not in picture assume it to be in conv layer
-				\subsubsection{Convolutional Layer}
-					The convolutional layer is the core building block of a CNN. The layer's parameters consist of a set of \textbf{learnable filters} (or kernels), which have a small receptive field, but extend through the full depth of the input volume. During the forward pass, each filter is convolved across the width and height of the input volume, computing the dot product between the entries of the filter and the input and producing a $2$-dimensional activation map of that filter. As a result, the network learns filters that activate when it detects some specific type of feature at some spatial position in the input.
+			
 
-				\subsubsection{Max Pooling Layer}
-					It is common to periodically insert a Pooling layer in-between successive Conv layers in a ConvNet architecture. Its function is to \textbf{progressively reduce the spatial size} of the representation to reduce the amount of parameters and computation in the network, and hence to also control overfitting. The Pooling Layer operates independently on every depth slice of the input and resizes it spatially, using the max operation.
-				\subsubsection{Fully-Connected Layer}
-					Finally, after several convolutional and max pooling layers, the high-level reasoning in the neural network is done via fully connected layers. Neurons in a fully connected layer have \textbf{full connections to all activations} in the previous layer, as seen in regular Neural Networks. Their activations can hence be computed with a matrix multiplication followed by a bias offset. Thus output of the fully connected layer is a vector with elements representing the 'probability' (not in a strictly statistical sense) of the image containing specific objects or actions.
-				\begin{figure}[ht!]
-					\includegraphics[width=14cm]{conv.png}
-					\caption{A Typical Comvolutional Neural Network\label{fig4}}
-				\end{figure}
+
 			\subsection{Long Short Term Memory Networks}
-				
+			
 
 
 			\subsection{Training Data}
-				
+			
 
 
 			\subsection{Finetuning}
 			
 
+			\subsection{}
 
 
 
 
+			\subsection{Camera calibration}
+				The camera parameters can further be subdivided into intrinsic and extrinsic parameters. \textbf{Camera intrinsic parameter} $K$ is dependent on the focal length of the camera and principal point (which in most cases is the center of the image). The \textbf{camera extrinsic parameter} is composed of the rotation $R$ and translation $t$ between camera coordinate system and the world coordinate system. Together they form the camera projection matrix $P$, a $3 \times 4$ matrix which describes the mapping of a pinhole camera from 3D points in the world to 2D points in an image.
+				\begin{equation}
+				P = K[R|t]
+				\end{equation}
 			
+			\subsection{Sparse 3D reconstruction} 
+				Given two different images of the same scene from different angles, the position of a 3D point can be found as the intersection of the two projection rays which is commonly referred to as \textbf{triangulation}. For this first point correspondences have to be established. Then using this point correspondences a Random Sampling Consensus (RANSAC) based voting framework is used to estimate the camera intrinsic and extrinsic parameters. Finally, a joint non-linear optimization is used to further refine the camera parameters and the 3D points in a \textbf{bundle adjustment} framework. This method is computationally very expensive and hence done only for very sparse set of points. This is known as sparse 3D reconstruction.
+
+			\section{Mobile IMU sensors}
+				IMU (Inertial Measurement Unit) sensors are on-chip devices embedded in most of the smart phones or hand-held devices today. It mainly consists of a series of motion sensors: accelerometer, gyroscope, magnetometer and gravitation sensor. The data from these sensors can be fused to obtain the orientation and the position of the device in the world coordinate system.
+
+			\section{Conventional versus mobile 3D reconstruction}
+				In the case of a smart-phone or any hand-held device having a camera and IMU sensors, we wish to use  the IMU sensors to obtain extrinsic camera parameters in real time. This will help in reducing the load on conventional 3D reconstruction methods and get it in near real time.
 		%\end{itemize}
 
 
