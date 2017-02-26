@@ -5,6 +5,7 @@
 \usepackage{caption}
 \usepackage{subcaption}
 % \documentclass{beamer}
+\usepackage{amsmath}
 
 \newcommand{\namesigdate}[2][5cm]{%
   \begin{tabular}{@{}p{#1}@{}}
@@ -59,7 +60,7 @@
 	\section{Introduction}
 		\textit{\textbf{Video Description}} is the process of discovering knowledge, structures, patterns and events of interest in the video data and describing them in natural language. Video Description is an incredibly hard problem in computer vision and currently the only source of video description is manual labour. 
 		\newline
-		Video Description has wide variety of applications. It can help visually impared people "see" the world by describing the scene around them. It has also use in automated survelliance by analysing the videos in real time and reporting criminal activites. Also, it can be used to efficiently index large video databases based upon their content for ease of accessibility.
+		Video Description has wide variety of applications. It can help visually impaired people ``see'' the world by describing the scene around them. It has also use in automated surveillance by analyzing the videos in real time and reporting criminal activities. It can also be used to efficiently index large video databases based upon their content for ease of accessibility.
 
 		\begin{figure}[ht!]
 		\centering
@@ -67,17 +68,17 @@
 		\caption{Sample Video Description\label{fig0}}
 		\end{figure}		
 
-		Most prior work has been done on generating natural language descriptions from images. Past two years have seen a lot of breakthroughs in image captioning problem but so far this has not been used for generating descriptions from videos.\newline
-		Our aim is to use these new techniques of image captioning and use them to generate natural language descriptions from video data. In short, we will first encode video data using CNNs and then use RNNs to generate descriptions of these videos. Further, we will also explore using attention models to improve description of videos.
+		Most of the prior work in this field is focused on generating natural language descriptions from images. The past two years have seen a lot of breakthroughs in image captioning problems but so far these have not been extended to the problem of  generating descriptions from videos.\newline
+		Our aim is to utilize these new techniques in the field of image captioning and generate natural language descriptions from video data. Basically this project will involve first encoding video data using CNNs and then using RNNs (specifically LSTMs) to generate descriptions of these videos. Further, we will also explore using attention and optical flow based models to improve description of videos.
 
 
 	\section{Objectives}
-		Our main objective is to understand videos and generate natural language descriptions of them. This task can be further subdivided into following subtasks:
+		Our main objective is to create a model capable of understanding videos and generating natural language descriptions of them. We will also create an end-user application for demonstration purposes. This task can be further divided into following sub-tasks:
 		\begin{enumerate}
 			\item
-				To ready all available datasets and organize them into training, validation and testing sets.
+				To organize all available sources of data and split them into training, validation and testing sets.
 			\item
-				To construct CNNs with pretrained weights for image captioning.
+				To set up CNNs with pretrained weights for image captioning.
 			\item
 				To construct Long Short Term Memory (LSTM) Encoder Decoders.
 			\item
@@ -89,48 +90,85 @@
 
 \section{Basic Concepts} 
 			\subsection{Deep Learning}
-				Deep Learning is a branch of machine learning in which multiple parameter based models are used in series. In a deep network, there are many layers between the input and output, allowing the algorithm to use multiple processing layers, composed of \textbf{multiple linear and non-linear transformations}. At each layer, the signal is transformed by a processing unit, like an artificial neuron, whose parameters are \textbf{`learned'} through training. Deep Learning has been shown to excel in tasks where the goal is to find \textbf{intuitive} patterns in the data. In particular, in the field of Computer Vision, deep networks are increasingly used to extract \textbf{feature descriptions and interrelationships} from images.
+				Deep Learning is a branch of machine learning in which multiple parameter based models are used in series. In a deep network, there are many layers between the input and output, allowing the algorithm to be executed in multiple processing steps, composed of \textbf{multiple linear and non-linear transformations}. At each layer, the signal is transformed by a processing unit, like an artificial neuron, whose parameters are \textbf{`learned'} through training. Deep Learning has been shown to excel in tasks where the goal is to find \textbf{intuitive} patterns in the data.\cite{deep} In particular, in the field of Computer Vision, deep networks are increasingly used to extract \textbf{feature descriptions and inter-relationships between features} from images.\cite{cs231n}
+				\begin{figure}[ht!]
+					\includegraphics[width=14cm]{blog_deeplearning3.jpg}
+					\caption{Illustration of Deep Learning as applied to Vision\label{fig2}}
+				\end{figure}	
 
 			\subsection{Convolutional Neural Networks}
-			Convolutional Neural Networks (CNN, or ConvNet) are a type of feed-forward artificial neural network in which the connectivity pattern between the neurons is inspired by the organization of the animal visual cortex. Individual cortical neurons respond to stimuli in a restricted region of space known as the \textbf{receptive field}. The receptive fields of different neurons partially overlap such that they tile the visual field. The response of an individual neuron to stimuli within its receptive field can be approximated mathematically by a \textbf{convolution operation}. A Convolutional Neural Network consists of the following layers.
-				
+			Convolutional Neural Networks (CNN, or ConvNet) are a type of feed-forward artificial neural network in which the connectivity pattern between the neurons is inspired by the organization of the animal visual cortex. Individual cortical neurons respond to stimuli in a restricted region of space known as the \textbf{receptive field}. The receptive fields of different neurons partially overlap such that they tile the visual field. The response of an individual neuron to stimuli within its receptive field can be approximated mathematically by a \textbf{convolution operation}. A Convolutional Neural Network consists of the following layers.\cite{showandtell}
+								
+				\begin{figure}[ht!]
+					\includegraphics[width=1.0\textwidth]{conv.png}
+					\caption{A Typical Convolutional Neural Network\label{fig4}}
+				\end{figure}
 			%skipping Relu layer since its not in picture assume it to be in conv layer
 				\subsubsection{Convolutional Layer}
-					The convolutional layer is the core building block of a CNN. The layer's parameters consist of a set of \textbf{learnable filters} (or kernels), which have a small receptive field, but extend through the full depth of the input volume. During the forward pass, each filter is convolved across the width and height of the input volume, computing the dot product between the entries of the filter and the input and producing a $2$-dimensional activation map of that filter. As a result, the network learns filters that activate when it detects some specific type of feature at some spatial position in the input.
+					The convolution layer is the core building block of a CNN. The layer's parameters consist of a set of \textbf{learnable filters} (or kernels), which have a small receptive field, but extend through the full depth of the input volume. During the forward pass, each filter is convolved across the width and height of the input volume, computing the dot product between the entries of the filter and the input and producing a $2$-dimensional activation map of that filter.\cite{cs231n} As a result, the network learns filters that activate when it detects some specific type of feature at some spatial position in the input.
 
 				\subsubsection{Max Pooling Layer}
-					It is common to periodically insert a Pooling layer in-between successive Conv layers in a ConvNet architecture. Its function is to \textbf{progressively reduce the spatial size} of the representation to reduce the amount of parameters and computation in the network, and hence to also control overfitting. The Pooling Layer operates independently on every depth slice of the input and resizes it spatially, using the max operation.
+					It is common to periodically insert a Pooling layer in-between successive Conv layers in a ConvNet architecture. Its function is to \textbf{progressively reduce the spatial size} of the representation to reduce the amount of parameters and computation in the network, and hence to also control over-fitting. The Pooling Layer operates independently on every depth slice of the input and resizes it spatially, using the max operation.\cite{cs231n}
 				\subsubsection{Fully-Connected Layer}
-					Finally, after several convolutional and max pooling layers, the high-level reasoning in the neural network is done via fully connected layers. Neurons in a fully connected layer have \textbf{full connections to all activations} in the previous layer, as seen in regular Neural Networks. Their activations can hence be computed with a matrix multiplication followed by a bias offset. Thus output of the fully connected layer is a vector with elements representing the `probability' (not in a strictly statistical sense) of the image containing specific objects or actions.
-				
-				\begin{figure}[ht!]
-				
-					\includegraphics[width=1.0\textwidth]{conv.png}
-					\caption{A Typical Comvolutional Neural Network\label{fig4}}
-				\end{figure}
-			\subsection{Long Short Term Memory Networks}
-								
+					Finally, after several convolutional and max pooling layers, the high-level reasoning in the neural network is done via fully connected layers. Neurons in a fully connected layer have \textbf{full connections to all activations} in the previous layer, as seen in regular Neural Networks. Their activations can hence be computed with a matrix multiplication followed by a bias offset.\cite{fullyconnected} Thus output of the fully connected layer is a vector with elements representing the `probability' (not in a strictly statistical sense) of the image containing specific objects or actions.
 
-			\subsection{Transfer Learning}
+			\subsection{Long Short Term Memory Networks}
+			    \begin{figure}[ht!]
+			    	\centering
+					\includegraphics[scale=0.266]{LSTM_unit.png}
+					\caption{A single LSTM unit\label{fig6}}
+				\end{figure}
+				Long Short Term Memory Networks are a type of Recurrent Neural Networks. These networks are based upon recursion, so that variable length inputs can be handled easily and sequential information can be processed with better results. LSTM's are specifically used for making RNNs learn long term patterns since traditional RNNs tend to \textbf{favour short term temporal dynamics}. It can be difficult to train traditional RNNs to learn long-term dynamics, likely due in part to the \textbf{vanishing and exploding gradients problem} that can result from propagating the gradients down through the many layers of the recurrent network, each corresponding to a particular time step\cite{ltms}. LSTMs provide a solution by incorporating memory units that explicitly allow the network to learn when to ``forget'' previous hidden states and when to update hidden states given new information\cite{lstmexecute}.\\
+				Below we list the main equations governing the behaviour of the LSTM networks.\\
+				\begin{align}
+					f_{t} &= \sigma_{g}(W_{f}x_{t} + U_{f}h_{t-1} + b_{f})\\	
+					i_{t} &= \sigma_{g}(W_{i}x_{t} + U_{i}h_{t-1} + b_{i})\\
+					o_{t} &= \sigma_{g}(W_{o}x_{t} + U_{o}h_{t-1} + b_{o})\\
+					c_{t} &= f_{t} \circ c_{t-1} + i_{t} \circ \sigma_{c}(W_{c}x_{t} + U_{c}h_{t-1} + b_{c})\\
+					h_{t} &= o_{t} \circ \sigma_{h}(c_{t})
+				\end{align}
+				The symbol meanings are:\\
+	$\mathbf{x_{t}}$: Input vector\\
+    $\mathbf{h_{t}}$: Output vector\\
+    $\mathbf{c_{t}}$: Cell state vector\\
+    $\mathbf{W}$, $\mathbf{U}$ and $\mathbf{b}$: Parameter matrices and vector\\
+    $\mathbf{f_{t}}$: Forget gate vector. Weight of remembering old information.\\
+    $\mathbf{i_{t}}$: Input gate vector. Weight of acquiring new information.\\
+    $\mathbf{o_{t}}$: Output gate vector. Output candidate\\
+    $\mathbf{\sigma_{g}}$, $\mathbf{\sigma_{c}}$ and $\mathbf{\sigma_{h}}$: Activation functions\\
+		
+			\subsection{Training Deep Neural Networks}
+					\begin{figure}[ht!]
+					\includegraphics[width=14cm]{training_inference1.png}
+					\caption{Training and Inference Processes\label{fig5}}
+				\end{figure}
+				A Deep Neural Network is at it's core a parameter based function. All of these parameters are  \textbf{trained} automatically from inputs and expected output tuples (training data). The training process revolves around minimizing a particular cost function using methods like \textbf{Stochastic gradient descent}. The input is given to the network in a feed forward fashion and the parameters are modified from the last layer to the first \textbf{(Backpropogation)}. Neural Networks, by design, require huge amounts of training data and take a large time to get trained. For some perspective, most current state of the art image classifiers have $> 100$ million parameters and are trained on more than 1.2 million images. 
+
 
 			\subsection{Finetuning}
-			
-
-			\subsection{Training Data}
+				Fine-tuning a network is a procedure based on the concept of
+				\textbf{transfer learning}. We start training a CNN to learn features for a broad domain with a
+				classification function targeted at minimizing error in that domain. Then, we
+				replace the classification function and \textbf{optimize the network} again to minimize
+				error in another, more specific domain. Under this setting, we are transferring
+				the features and the parameters of the network from the broad domain to the
+				special one.\cite{fineplant} In our project we will need to use the pre-trained image classification models 
+				to actually decode individual frames of the video, thus we are planning to \textbf{fine-tune those models
+				with respect to the output of our LSTMs}.
 
 
 
 	\section{Approach to the project}
-		First, we shall be implementing image captioning in order to be able to encode individual video frames in fixed-length vector represenation of it.
+		First, we shall be implementing image captioning in order to be able to encode individual video frames in fixed-length vector representation.
 		Then, we will be using our constructed CNN to encode video frames sampled at a fixed interval.
-		We will then use RNNs to translate this representation of video into natural language domain. This translation will be achieved by using a set of encoder and decoder RNNs. Since we are working with variable length input and output, we will specifically be using LSTMs for encoding and decoding pursposes as they have been proven to be excellent in machine translation and generalize very well on long data input.
+		We will then use RNNs to translate this representation of video into natural language domain. This translation will be achieved by using a set of encoder and decoder RNNs. Since we are working with variable length input and output, we will specifically be using LSTMs for encoding and decoding purposes as they have been proven to be excellent in machine translation and generalize very well on long data input.
 		\begin{enumerate}
 			\item Image Captioning
 			\begin{enumerate}
 				\item
-					Construct a VGG/Inception V3 with pre-trained weigths on object classification.
+					Construct a VGG/Inception V3 with pre-trained weights for object classification.
 				\item
-					Make an LSTM\cite{showandtell} with CNN translated image as input that will be used to translate the image representation into natural language text.
+					Make an LSTM network\cite{showandtell} with CNN encoded image as input that will be used to translate the image representation into natural language text.
 				\item
 					Train the model on datasets like MS COCO.
 			\end{enumerate}
@@ -142,15 +180,17 @@
 					We will then try out different approaches of video representation like:
 					\begin{itemize}
 						\item
-							Mean Pooling\cite{meanpool} over all video frame encodings obtained to get a fixed vector representation of video.
+							Mean Pooling over all video frame encodings obtained to get a fixed vector representation of video\cite{proposal}.
 						\item
-							Using RNNs\cite{s2vt} to encode this variable length video representation.
+							Using RNNs to encode this variable length video representation\cite{s2vt}.
+						\item
+							Using 3D CNNs to directly encode videos and use simple RNNs for description generation\cite{temporal}.
 					\end{itemize}					
 			\end{enumerate}
 			\item Natural Language Conversion
 			\begin{enumerate}
 				\item
-					Based on how we choose to encode our video, we will have to select appropriate archietecture of LSTM to be used to decode the representation
+					Based on how we choose to encode our video, we will have to select appropriate architecture of LSTM to be used to decode the representation
 				\begin{figure}[ht!]
 				\centering
 					\includegraphics[width=10cm]{s2vt.png}
@@ -166,32 +206,33 @@
 			\end{enumerate}
 			\item Further Possibilities
 			\begin{enumerate}
-				\item We will look for techniques of data augumentation and transfer learning\cite{proposal} to compensate for the limited amount of training data for video description.
+				\item We will look for techniques of data augmentation and transfer learning\cite{proposal} to compensate for the limited amount of training data for video description.
 				\item We will also look into some recent techniques of using optical flow for attention modelling\cite{s2vt} which has shown in some cases to improve the results of action recognition.
-				\item We will also consider using more efficient vocabulary representation than one hot encoding as vocabulary in this case would be very large.
+				\item We will also consider using more efficient vocabulary representation as compared to one hot encoding because vocabulary in this case would be very large.
 				\item Try to make forward propagation fast and more memory efficient.
-				\item We will also try to develop an end user application that will speak out description of a video that a person shoots.
+				\item We will also try to develop an end user application that will speak out description of a video that a person records.
+				\item A future extension of this project is to design a system which can answer questions based upon a video, similar to \cite{visualqa}.
 			\end{enumerate}
 		\end{enumerate}
 
-	\section{Datasets}
-		Though the source of video description datasets, we have found some viable options that can be worked upon. Even though these are not very large datasets (like MSCOCO) but some research has been done using these and we are confident that we can work using these datasets. Some of them are:
+	\section{Data sets}
+		Though video description datasets are scarce, we have found some viable options that can be utilized. These datasets are not very large (unlike image captioning datasets like MSCOCO), but we are confident that indicative results can be obtained from them. Some of these datasets are:
 		\begin{enumerate}
 		\item
 			\textbf{Microsoft Video Description (MSVD)}: The dataset contains 41.2 hours and 200K clip-sentence pairs in total, covering the most comprehensive categories and diverse visual content, and representing the largest dataset in terms of sentence and vocabulary.
 		\item
 			\textbf{MPII Movie Description Dataset (MPII-MD)}: MPII-MD contains around 68,000 video clips extracted from 94 Hollywood movies. Each clip is accompanied with a single sentence description which is sourced from movie scripts and audio description (AD) data.
 		\item
-			\textbf{Montreal Video Annotation Dataset (M-VAD)}: The M-VAD movie description corpus is another recent collection of about 49,000 short video clips from 92 movies. It is similar to MPII-MD, but only contains AD data and only provides automatic alignment. 
+			\textbf{Montreal Video Annotation Dataset (M-VAD)}: The M-VAD movie description corpus is another recent collection of about 49,000 short video clips from 92 movies. It is similar to MPII-MD, but only contains AD data and only provides automatic alignment.
 		\end{enumerate}
-
+		We are also considering the possibility of using annotated movies for visually impaired people as datasets to train for video description.
 
 	\section{Uses and applications}
 			\begin{itemize}
 				\item
-					Assisting visually impared people to get description of their surrounding, thus enabling them to ``see''.
+					Assisting visually impaired people to get description of their surroundings, thus enabling them to ``see''.
 				\item
-					Very useful for automated survelliance and theft detection by being able to analyze large amounts of data that is not viewable by humans.
+					Very useful for automated surveillance and theft detection by being able to analyze large amounts of data which is unfeasible to be done by humans.
 				\item
 					Allowing content based video retrieval by describing the contents of video in textual format which is indexable by web crawlers.
 				\item
@@ -202,7 +243,7 @@
 
 	\section{Budget and duration}	
 		\subsection{Budget}
-			No budget is required.
+			Rs. 10,000 will be required for purchasing GPU instance in AWS servers as the project will require an on-demand access to very powerful GPU during training process.
 			% Rs. 25,000 will be needed to purchase an android smart phone having high quality sensors and a high resolution camera.
 					
 		\subsection{Duration}
@@ -215,13 +256,34 @@
 	  \bibitem{s2vt}  Venugopalan, Subhashini and Rohrbach, Marcus and Donahue, Jeff
                     and Mooney, Raymond and Darrell, Trevor and Saenko, Kate {\em Proceedings of the IEEE International Conference on Computer Vision (ICCV)}, 2015
 	
-	  \bibitem{meanpool} Venugopalan, Subhashini and Xu, Huijuan and Donahue, Jeff and
-         Rohrbach, Marcus and Mooney, Raymond and Saenko, Kate {\em Translating Videos to Natural Language Using Deep Recurrent Neural Networks} 2015
-	
 	  \bibitem{showandtell} Oriol Vinyals and
                Alexander Toshev and
                Samy Bengio and
                Dumitru Erhan {\em Show and Tell: {A} Neural Image Caption Generator} 2014.
+
+        \bibitem{lstmexecute} Wojciech Zaremba, Ilya Sutskever {\em Learning to Execute} ICLR 2015
+         
+
+         \bibitem{temporal}  Li Yao, Atousa Torabi, Kyunghyun Cho, Nicolas Ballas, Christopher Pal, Hugo Larochelle, Aaron Courville {\em Describing Videos by Exploiting Temporal Structure} ICCV 2015
+        
+
+         \bibitem{visualqa} Aishwarya Agrawal, Jiasen Lu , Stanislaw Antol,
+		Margaret Mitchell, C. Lawrence Zitnick, Dhruv Batra, Devi Parikh {\em VQA: Visual Question Answering} 2016
+        
+
+         \bibitem{ltms} Jeff Donahue, Lisa Anne Hendricks, Marcus Rohrbach, Subhashini Venugopalan, Sergio Guadarrama, Kate Saenko, Trevor Darrell {\em Long-term Recurrent Convolutional Networks for Visual Recognition and Description} 2016
+
+         \bibitem{deep} Bengio, Yoshua; LeCun, Yann; Hinton, Geoffrey {\em Deep Learning} 2015
+
+         \bibitem{fineplant} Angie K. Reyes, Juan C. Caicedo and Jorge E. Camargo {\em Fine-tuning Deep Convolutional Networks for
+		Plant Recognition} LifeCLEF 2015
+
+         \bibitem{cs231n} Andrej Karpathy {\em 
+			CS231n Convolutional Neural Networks for Visual Recognition
+		} http://cs231n.github.io/convolutional-networks/
+
+		\bibitem{fullyconnected} Santanu Chaudhury, Anupama Mallik, Hiranmay Ghosh {\em Multimedia Ontology: Representation and Applications
+		} 
 
 	\end{thebibliography}
 \end{document}
