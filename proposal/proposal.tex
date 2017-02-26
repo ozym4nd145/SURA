@@ -4,7 +4,6 @@
 \usepackage{titlepic}
 \usepackage{caption}
 \usepackage{subcaption}
-% \documentclass{beamer}
 \usepackage{amsmath}
 
 \newcommand{\namesigdate}[2][5cm]{%
@@ -120,7 +119,7 @@
 					\caption{A single LSTM unit\label{fig6}}
 				\end{figure}
 				Long Short Term Memory Networks are a type of Recurrent Neural Networks. Both of them are networks based upon recursion, so that variable length inputs can be handled. LSTM's are specifically used for making RNNs learn long term patterns since traditional RNNs tend to \textbf{favour short term temporal dynamics}. It can be difficult to train traditional RNNs to learn long-term dynamics, likely due in part to the \textbf{vanishing and exploding gradients problem} that can result from propagating the gradients down through the many layers of the recurrent network, each corresponding to a particular time step. LSTMs provide a solution by incorporating memory units that explicitly allow the network to learn when to ``forget'' previous hidden states and when to update hidden states given new information.\\
-				Below we list the main equations governing the behaviour of the LSTM netwrorks we just described.\\
+				Below we list the main equations governing the behaviour of the LSTM networks we just described.\\
 				\begin{align}
 					f_{t} &= \sigma_{g}(W_{f}x_{t} + U_{f}h_{t-1} + b_{f})\\	
 					i_{t} &= \sigma_{g}(W_{i}x_{t} + U_{i}h_{t-1} + b_{i})\\
@@ -139,7 +138,7 @@
     $\mathbf{\sigma_{g}}$, $\mathbf{\sigma_{c}}$ and $\mathbf{\sigma_{h}}$: Activation functions\\
 				
 			\subsection{Training Deep Neural Networks}
-				A Deep Neural Network is at it's core a parameter based function. All of these parameters are  \textbf{trained} automatically from inputs and expected output tuples (training data). The training process revolves around minimizing a particular cost function using methods like \textbf{Stochastic gradient descent}. The input is given to the network in a feed forward fashion and the parameters aremodified from the last layer to the first (\textbf{Backpropogation}). Neural Networks by design require huge amounts of training data and take a large time to get trained. For some perspective most current state of the art image classifiers have $> 100 million$ parameters and are trained on more than 1.2 million images. 
+				A Deep Neural Network is at it's core a parameter based function. All of these parameters are  \textbf{trained} automatically from inputs and expected output tuples (training data). The training process revolves around minimizing a particular cost function using methods like \textbf{Stochastic gradient descent}. The input is given to the network in a feed forward fashion and the parameters are modified from the last layer to the first (\textbf{Backpropogation}). Neural Networks by design require huge amounts of training data and take a large time to get trained. For some perspective most current state of the art image classifiers have $> 100 million$ parameters and are trained on more than 1.2 million images. 
 				\begin{figure}[ht!]
 					\includegraphics[width=14cm]{training_inference1.png}
 					\caption{Training and Inference Processes\label{fig5}}
