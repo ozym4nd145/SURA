@@ -21,7 +21,7 @@
 	\textbf{Suyash Agrawal}\\ 
 	2015CS10262\\
 	Computer Science\\
-	CGPA: 9.91 \\
+	CGPA: 9.92 \\
 	Mob: 9717060183\\
 	cs1150262@iitd.ac.in
 	\and
@@ -72,7 +72,7 @@
 		\begin{figure}[ht!]
 		\centering
 		\includegraphics[width=12.5cm]{description.png}
-		\caption{Sample Video Description\label{fig}}
+		\caption{Sample Video Description\label{fig0}}
 		\end{figure}		
 		
 %		\begin{figure}[ht!]
@@ -94,38 +94,54 @@
 %		\end{figure}
 
 
-		Figure~\ref{fig:fig0} shows a possible description of a sample video. The \textit{traditional pipeline} is shown in Figure~\ref{fig3}.
+		Figure~\ref{fig0} shows a possible description of a sample video.\newline
 
-		\begin{figure}[ht!]
-		\centering
-		\includegraphics[width=14cm]{traditional_pipeline2.png}
-		\caption{Traditional pipeline\label{fig3}}
-		\end{figure}
+%		The proposed \textit{pipeline} for this project is shown in Figure~\ref{fig3}.
+%
+%		\begin{figure}[ht!]
+%		\centering
+%		\includegraphics[width=13cm]{pipeline.png}
+%		\caption{Proposed pipeline\label{fig3}}
+%		\end{figure}
+		Most prior work has been done on generating natural language descriptions from images. Past two years have seen a lot of breakthroughs in image captioning problem but so far this has not been used for generating descriptions from videos.\newline
+		Our aim is to use these new techniques of image captioning and use them to generate natural language descriptions from video data. In short, we will first encode video data using CNNs and then use RNNs to generate descriptions of these videos. Further, we will also explore using attention models to improve description of videos.
 
-		The red-highlighted part of the pipeline is \textit{\textbf{computationally expensive}}. Thus, our project aims to reduce this computation and perform 3D reconstruction in near real-time.
-
-		The processing parts are:
-			\begin{itemize}
-			\item \textit{Intrinsic and extrinsic parameters}: The camera projection matrix is a $3 \times 4$ matrix which represents the pinhole geometry of a camera for mapping 3D points in the world coordinates to 2D points on images. This matrix depends on extrinsic and intrinsic parameters. The intrinsic parameters mainly comprises of focal length, image sensor format, and principal points. The extrinsic parameters define the position of the camera center and the camera's heading in world coordinates in terms of a rigid rotation and translation. 
-			\item \textit{Stereo correspondence generation}: Given two or more images of the same 3D scene, taken from different points of view, the correspondence problem refers to the task of finding a set of points in one image which can be identified as the same points in another image. To do this, points or features in one image are matched with the corresponding points or features in another image. The images can be taken from a different point of view, at different times, or with objects in the scene in general motion relative to the camera(s).
-			\item \textit{Triangulation}: Triangulation refers to the process of determining a point in 3D space given, its projections onto two or more images and their corresponding camera projection matrices. This point is found as the intersection of the two or more projection rays formed from the inverse projection of the 2D image points representing that 3D point in space.
-			\item \textit{Initial point cloud and 3D sparse reconstruction}: As the word suggests, \textit{3D sparse construction} is done for only some set of data points in the given coordinate system called \textit{initial point cloud}. Figure~\ref{fig:sub1} illustrates a 3D sparse construction of a chariot. Figure~\ref{fig:sub2} illustrates 3D dense construction of the same initial point cloud.
-
-			\end{itemize}
-	\section{Objectives} 
-		Our main objective is to perform 3D reconstruction in near real time using a mobile device. This can be further be subdivided into following points:
+%
+%		The processing parts are:
+%			\begin{itemize}
+%			\item \textit{Intrinsic and extrinsic parameters}: The camera projection matrix is a $3 \times 4$ matrix which represents the pinhole geometry of a camera for mapping 3D points in the world coordinates to 2D points on images. This matrix depends on extrinsic and intrinsic parameters. The intrinsic parameters mainly comprises of focal length, image sensor format, and principal points. The extrinsic parameters define the position of the camera center and the camera's heading in world coordinates in terms of a rigid rotation and translation. 
+%			\item \textit{Stereo correspondence generation}: Given two or more images of the same 3D scene, taken from different points of view, the correspondence problem refers to the task of finding a set of points in one image which can be identified as the same points in another image. To do this, points or features in one image are matched with the corresponding points or features in another image. The images can be taken from a different point of view, at different times, or with objects in the scene in general motion relative to the camera(s).
+%			\item \textit{Triangulation}: Triangulation refers to the process of determining a point in 3D space given, its projections onto two or more images and their corresponding camera projection matrices. This point is found as the intersection of the two or more projection rays formed from the inverse projection of the 2D image points representing that 3D point in space.
+%			\item \textit{Initial point cloud and 3D sparse reconstruction}: As the word suggests, \textit{3D sparse construction} is done for only some set of data points in the given coordinate system called \textit{initial point cloud}. Figure~\ref{fig:sub1} illustrates a 3D sparse construction of a chariot. Figure~\ref{fig:sub2} illustrates 3D dense construction of the same initial point cloud.
+%
+%			\end{itemize}
+	\section{Objectives}
+		Our main objective is to understand videos and generate natural language descriptions of them. This task can be further subdivided into following subtasks:
 		\begin{enumerate}
-			\item 
-				To get accurate position and orientation estimate based on readings of IMU sensors in smart-phones. 
 			\item
-				To use the camera feed in smart-phones to enhance the position estimate based on visual tracking of objects.
-			\item 
-				To do sparse 3D reconstruction based on sensor fusion data and computer vision techniques.
+				To ready all available datasets and organize them into training, validation and testing sets.
 			\item
-				To enhance the quality and efficiency of 3D reconstruction by adding more details and moving towards dense 3D reconstruction.
+				To construct CNNs with pretrained weights for image captioning.
 			\item
-				We will ultimately be fusing digital signal processing and computer vision based techniques that will enable us to perform near real time 3D reconstructions on mobile or hand-held devices.
-		\end{enumerate}
+				To construct Long Short Term Memory (LSTM) Encoder Decoders.
+			\item
+				To train the network using the test set data and use validation set data for setting hyper-parameters.
+			\item
+				To benchmark results and improve using techniques like attention modelling.
+		\end{enumerate}		 
+%		Our main objective is to perform 3D reconstruction in near real time using a mobile device. This can be further be subdivided into following points:
+%		\begin{enumerate}
+%			\item 
+%				To get accurate position and orientation estimate based on readings of IMU sensors in smart-phones. 
+%			\item
+%				To use the camera feed in smart-phones to enhance the position estimate based on visual tracking of objects.
+%			\item 
+%				To do sparse 3D reconstruction based on sensor fusion data and computer vision techniques.
+%			\item
+%				To enhance the quality and efficiency of 3D reconstruction by adding more details and moving towards dense 3D reconstruction.
+%			\item
+%				We will ultimately be fusing digital signal processing and computer vision based techniques that will enable us to perform near real time 3D reconstructions on mobile or hand-held devices.
+%		\end{enumerate}
 
 \section{Basic Concepts} 
 		%\begin{itemize}
@@ -146,62 +162,125 @@
 		%\end{itemize}
 
 
-
-	\section{Approach to the project} 
-		First, we shall be using sensor fusion to obtain accurate estimates for camera position and orientation of the mobile device. Then we will move on to 3D reconstruction, which further has two parts: i.e. sparse 3D reconstruction and then use tracking to obtain dense correspondence of points for dense 3D reconstruction.
+	\section{Approach to the project}
+		First, we shall be implementing image captioning in order to be able to encode individual video frames in fixed-length vector represenation of it.
+		Then, we will be using our constructed CNN to encode video frames sampled at a fixed interval.
+		We will then use RNNs to translate this representation of video into natural language domain. This translation will be achieved by using a set of encoder and decoder RNNs. Since we are working with variable length input and output, we will specifically be using LSTMs for encoding and decoding pursposes as they have been proven to be excellent in machine translation and generalize very well on long data input.
 		\begin{enumerate}
-			\item Position and orientation estimation
+			\item Image Captioning
 			\begin{enumerate}
 				\item
-					Get accelerometer data and orientation data at real time using the IMU sensors like accelerometer, gyroscope, gravity sensor and magnetometer present on the smart phone.
-					This data is highly noisy. Figure~\ref{fig1} shows the position estimate from accelerometer data across various devices.
-
-					\begin{figure}[ht!]
-					\centering
-					\includegraphics[width=10cm]{graph.jpg}
-					\caption{Accuracy of accelerometer data across different devices (scale cm)\label{fig1}}
-					\end{figure}
-
-					As evident from the graph, this data cannot be directly used for calculation of position and orientation. 
-					Figure~\ref{fig2} shows the integration of static accelerometer data to obtain velocity and displacement.
-
-					\begin{figure}[ht!]
-					\centering
-					\includegraphics[width=10cm]{integration.jpg}
-					\caption{Obtaining velocity and displacement from static accelerometer data\label{fig2}}
-					\end{figure}
-
-					The graph of both velocity and displacement shows significant deviation from the actual value which is zero.
-					Thus, signal processing and smoothening is required to get a better estimate.
-
+					Construct a VGG/Inception V3 with pre-trained weigths on object classification.
 				\item
-					Making the orientation data more accurate by infusing the higher frequency components from the gyroscope orientation after drift correction.
+					Make an LSTM with CNN translated image as input that will be used to translate the image representation into natural language text.
 				\item
-					Obtaining the displacement and orientation data from the camera feed on the device using visual tracking methods.
-				\item
-					A comparative study is to be done between the position estimates obtained by the two methods along with ground truth and fusing the results to obtain an enhanced position and orientation estimate.
+					Train the model on datasets like MS COCO.
 			\end{enumerate}
-			% • All these data along with the clicking of pictures are synchronised to a single system clock.
-			% \item We will use the IMU sensors present in smart-phones to get a position estimation.
-			\item 3D reconstruction
+			\item Video Representation
 			\begin{enumerate}
-				\item 
-					Obtain sparse 3D reconstruction based on camera rotation and position parameters obtained previously.
 				\item
-					Use tracking data from different tracking methods like ``Good features to track'' or ``KL tracker'' for obtaining dense correspondence of points.
+					We will first sample video at a fixed rate and convert each individual frame to a fixed length vector representation using the CNN trained in image captioning part.
 				\item
-					Use guided matching by indirect computation of fundamental matrix from estimated camera motion from sensors to further enrich the correspondences.
-				\item
-					Triangulate the dense correspondences and do a final global refinement.					
+					We will then try out different approaches of video representation like:
+					\begin{itemize}
+						\item
+							Averaging over all video frame encodings obtained to get a fixed vector representation of video.
+						\item
+							Using RNNs to encode this variable length video representation.
+					\end{itemize}					
 			\end{enumerate}
-			\item Further possibilities
-			\begin{itemize}
-			    \item Getting a more detailed texture mapping of the object.
-			    \item Making an object recognition software on the basis of this 3D reconstruction.
-			    \item Improving the algorithm for a quicker and more efficient 3D reconstruction. 
-				\item Releasing applications for Apple, Android and Windows platforms for near real time 3D reconstruction on the device itself.
-			\end{itemize}
+			\item Natural Language Conversion
+			\begin{enumerate}
+				\item
+					Based on how we choose to encode our video, we will have to select appropriate archietecture of LSTM to be used to decode the representation
+				\begin{figure}[ht!]
+				\centering
+					\includegraphics[width=10cm]{s2vt.png}
+					\caption{Video description model with 2 LSTM levels\label{fig1}}
+				\end{figure}
+
+				\item
+					One popular choice(Figure~\ref{fig1}) that we will try out first will be to use a two level LSTM model that will do a sequence to sequence mapping from variable length video representation to variable length natural language sentence.
+				\item
+					Then we will train our model on the training data we have obtained and plot the learning curves.
+				\item
+					We will also have to check for over-fitting and under-fitting during our training process and finetune our hyper parameters according to it.
+			\end{enumerate}
+			\item Further Possibilities
+			\begin{enumerate}
+				\item We will look for techniques of data augumentation and transfer learning to compensate for the limited amount of training data for video description.
+				\item We will also look into some recent techniques of using optical flow for attention modelling which has shown in some cases to improve the results of action recognition.
+				\item We will also consider using more efficient vocabulary representation than one hot encoding as vocabulary in this case would be very large.
+				\item Try to make forward propagation fast and more memory efficient.
+				\item We will also try to develop an end user application that will speak out description of a video that a person shoots.
+			\end{enumerate}
 		\end{enumerate}
+
+	\section{Datasets}
+		Though the source of video description datasets, we have found some viable options that can be worked upon. Even though these are not very large datasets (like MSCOCO) but some research has been done using these and we are confident that we can work using these datasets. Some of them are:
+		\begin{enumerate}
+		\item
+			\textbf{Microsoft Video Description (MSVD)}: The dataset contains 41.2 hours and 200K clip-sentence pairs in total, covering the most comprehensive categories and diverse visual content, and representing the largest dataset in terms of sentence and vocabulary.
+		\item
+			\textbf{MPII Movie Description Dataset (MPII-MD)}: MPII-MD contains around 68,000 video clips extracted from 94 Hollywood movies. Each clip is accompanied with a single sentence description which is sourced from movie scripts and audio description (AD) data.
+		\item
+			\textbf{Montreal Video Annotation Dataset (M-VAD)}: The M-VAD movie description corpus is another recent collection of about 49,000 short video clips from 92 movies. It is similar to MPII-MD, but only contains AD data and only provides automatic alignment. 
+		\end{enumerate}
+%	\section{Approach to the project} 
+%		First, we shall be using sensor fusion to obtain accurate estimates for camera position and orientation of the mobile device. Then we will move on to 3D reconstruction, which further has two parts: i.e. sparse 3D reconstruction and then use tracking to obtain dense correspondence of points for dense 3D reconstruction.
+%		\begin{enumerate}
+%			\item Position and orientation estimation
+%			\begin{enumerate}
+%				\item
+%					Get accelerometer data and orientation data at real time using the IMU sensors like accelerometer, gyroscope, gravity sensor and magnetometer present on the smart phone.
+%					This data is highly noisy. Figure~\ref{fig1} shows the position estimate from accelerometer data across various devices.
+%
+%					\begin{figure}[ht!]
+%					\centering
+%					\includegraphics[width=10cm]{graph.jpg}
+%					\caption{Accuracy of accelerometer data across different devices (scale cm)\label{fig1}}
+%					\end{figure}
+%
+%					As evident from the graph, this data cannot be directly used for calculation of position and orientation. 
+%					Figure~\ref{fig2} shows the integration of static accelerometer data to obtain velocity and displacement.
+%
+%					\begin{figure}[ht!]
+%					\centering
+%					\includegraphics[width=10cm]{integration.jpg}
+%					\caption{Obtaining velocity and displacement from static accelerometer data\label{fig2}}
+%					\end{figure}
+%
+%					The graph of both velocity and displacement shows significant deviation from the actual value which is zero.
+%					Thus, signal processing and smoothening is required to get a better estimate.
+%
+%				\item
+%					Making the orientation data more accurate by infusing the higher frequency components from the gyroscope orientation after drift correction.
+%				\item
+%					Obtaining the displacement and orientation data from the camera feed on the device using visual tracking methods.
+%				\item
+%					A comparative study is to be done between the position estimates obtained by the two methods along with ground truth and fusing the results to obtain an enhanced position and orientation estimate.
+%			\end{enumerate}
+%			% • All these data along with the clicking of pictures are synchronised to a single system clock.
+%			% \item We will use the IMU sensors present in smart-phones to get a position estimation.
+%			\item 3D reconstruction
+%			\begin{enumerate}
+%				\item 
+%					Obtain sparse 3D reconstruction based on camera rotation and position parameters obtained previously.
+%				\item
+%					Use tracking data from different tracking methods like ``Good features to track'' or ``KL tracker'' for obtaining dense correspondence of points.
+%				\item
+%					Use guided matching by indirect computation of fundamental matrix from estimated camera motion from sensors to further enrich the correspondences.
+%				\item
+%					Triangulate the dense correspondences and do a final global refinement.					
+%			\end{enumerate}
+%			\item Further possibilities
+%			\begin{itemize}
+%			    \item Getting a more detailed texture mapping of the object.
+%			    \item Making an object recognition software on the basis of this 3D reconstruction.
+%			    \item Improving the algorithm for a quicker and more efficient 3D reconstruction. 
+%				\item Releasing applications for Apple, Android and Windows platforms for near real time 3D reconstruction on the device itself.
+%			\end{itemize}
+%		\end{enumerate}
 
 	
 	
@@ -209,23 +288,36 @@
 	\section{Uses and applications}
 	% \item Uses and Applications
 			\begin{itemize}
-				\item Using the device as an accurate measuring device. This can be of particular interest to blind as they will be able to measure distances and angles accurately with great ease.
-				\item Doing real time dense 3D reconstructions on mobile phones and other hand-held devices. 
-				\item Allowing the user to generate a 3D printable file on his mobile device. As 3D printers are becoming cheaper and more common, this feature will reduce the need of the person to use a 3D scanner to be able to generate prototypes of objects. This will allow engineers and students to work more efficiently as they can generate copies of 3D objects easily.
-				\item This project can have applications in the field of archeology. It can be used to generate replica of artifacts and fragile objects for further studies, without harming its integrity.
-				\item Our approach can also be applied in the field of medical sciences, especially for orthopedics and joint replacement surgery. The part to be replaced can be made with high accuracy using this project.
-				\item The method can also be used by the astronauts up in space. With the help of our approach the parts to be changed can be easily made using a 3D printer.
-				\item Localization at tourist sites and providing real time directions to landmark locations. This will involve the use of GPS (Global positioning system) as well to get a rough location of the user.
+				\item
+					Assisting visually impared people to get description of their surrounding, thus enabling them to "see".
+				\item
+					Very useful for automated survelliance and theft detection but being able to analyze large amounts of data that is not viewable by humans.
+				\item
+					Allowing content based video retrieval by describing the contents of video in textual format which is indexable by web crawlers.
+				\item
+					This can also be used to detect catastrophic events through security cameras like fire breakout, murder etc.
+				\item
+					This project can also be applied in helping robotic vision as this project basically allows one to understand what is happening in the video and thus robots will be able to get a "true" sense of their surroundings.
 			\end{itemize}
-	\newpage
-	\section{Budget, duration and facilities}	
+%			\begin{itemize}
+%				\item Using the device as an accurate measuring device. This can be of particular interest to blind as they will be able to measure distances and angles accurately with great ease.
+%				\item Doing real time dense 3D reconstructions on mobile phones and other hand-held devices. 
+%				\item Allowing the user to generate a 3D printable file on his mobile device. As 3D printers are becoming cheaper and more common, this feature will reduce the need of the person to use a 3D scanner to be able to generate prototypes of objects. This will allow engineers and students to work more efficiently as they can generate copies of 3D objects easily.
+%				\item This project can have applications in the field of archeology. It can be used to generate replica of artifacts and fragile objects for further studies, without harming its integrity.
+%				\item Our approach can also be applied in the field of medical sciences, especially for orthopedics and joint replacement surgery. The part to be replaced can be made with high accuracy using this project.
+%				\item The method can also be used by the astronauts up in space. With the help of our approach the parts to be changed can be easily made using a 3D printer.
+%				\item Localization at tourist sites and providing real time directions to landmark locations. This will involve the use of GPS (Global positioning system) as well to get a rough location of the user.
+%			\end{itemize}
+	\section{Budget and duration}	
 		\subsection{Budget}
-			Rs. 25,000 will be needed to purchase an android smart phone having high quality sensors and a high resolution camera.
+			No budget is required.
+			% Rs. 25,000 will be needed to purchase an android smart phone having high quality sensors and a high resolution camera.
+					
 		\subsection{Duration}
-			We will try to complete this project by the end of the summer break i.e. the end of July, 2015. 
-		\subsection{Facilities}
-		    \begin{itemize}
-		    \item Access to the vision lab.
-		    % \item Access to a computer in Vision Lab.
-		    \end{itemize}
+			We will try to complete this project by the end of the summer break i.e. the end of July, 2017. 
+%		\subsection{Facilities}
+%		    \begin{itemize}
+%		    \item Access to the vision lab.
+%		    % \item Access to a computer in Vision Lab.
+%		    \end{itemize}
 \end{document}
