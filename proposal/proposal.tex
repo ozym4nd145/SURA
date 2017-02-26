@@ -5,6 +5,7 @@
 \usepackage{caption}
 \usepackage{subcaption}
 % \documentclass{beamer}
+\usepackage{amsmath}
 
 \newcommand{\namesigdate}[2][5cm]{%
   \begin{tabular}{@{}p{#1}@{}}
@@ -118,10 +119,24 @@
 					\includegraphics[scale=0.266]{LSTM_unit.png}
 					\caption{A single LSTM unit\label{fig6}}
 				\end{figure}
-				Long Short Term Memory Networks are a type of Recurrent Neural Networks. Both of them are networks based upon recursion, so that variable length inputs can be handled. LSTM's are specifically used for making RNNs learn long term patterns since traditional RNNs tend to \textbf{favour short term temporal dynamics}. It can be difficult to train traditional RNNs to learn long-term dynamics, likely due in part to the \textbf{vanishing and exploding gradients problem} that can result from propagating the gradients down through the many layers of the recurrent network, each corresponding to a particular time step. LSTMs provide a solution by incorporating memory units that explicitly allow the network to learn when to ``forget'' previous hidden states and when to update hidden states given new information.
-				
-
-
+				Long Short Term Memory Networks are a type of Recurrent Neural Networks. Both of them are networks based upon recursion, so that variable length inputs can be handled. LSTM's are specifically used for making RNNs learn long term patterns since traditional RNNs tend to \textbf{favour short term temporal dynamics}. It can be difficult to train traditional RNNs to learn long-term dynamics, likely due in part to the \textbf{vanishing and exploding gradients problem} that can result from propagating the gradients down through the many layers of the recurrent network, each corresponding to a particular time step. LSTMs provide a solution by incorporating memory units that explicitly allow the network to learn when to ``forget'' previous hidden states and when to update hidden states given new information.\\
+				Below we list the main equations governing the behaviour of the LSTM netwrorks we just described.\\
+				\begin{align}
+					f_{t} &= \sigma_{g}(W_{f}x_{t} + U_{f}h_{t-1} + b_{f})\\	
+					i_{t} &= \sigma_{g}(W_{i}x_{t} + U_{i}h_{t-1} + b_{i})\\
+					o_{t} &= \sigma_{g}(W_{o}x_{t} + U_{o}h_{t-1} + b_{o})\\
+					c_{t} &= f_{t} \circ c_{t-1} + i_{t} \circ \sigma_{c}(W_{c}x_{t} + U_{c}h_{t-1} + b_{c})\\
+					h_{t} &= o_{t} \circ \sigma_{h}(c_{t})
+				\end{align}
+				Here the variables:\\
+	$\mathbf{x_{t}}$: Input vector\\
+    $\mathbf{h_{t}}$: Output vector\\
+    $\mathbf{c_{t}}$: Cell state vector\\
+    $\mathbf{W}$, $\mathbf{U}$ and $\mathbf{b}$: Parameter matrices and vector\\
+    $\mathbf{f_{t}}$: Forget gate vector. Weight of remembering old information.\\
+    $\mathbf{i_{t}}$: Input gate vector. Weight of acquiring new information.\\
+    $\mathbf{o_{t}}$: Output gate vector. Output candidate\\
+    $\mathbf{\sigma_{g}}$, $\mathbf{\sigma_{c}}$ and $\mathbf{\sigma_{h}}$: Activation functions\\
 				
 			\subsection{Training Deep Neural Networks}
 				A Deep Neural Network is at it's core a parameter based function. All of these parameters are  \textbf{trained} automatically from inputs and expected output tuples (training data). The training process revolves around minimizing a particular cost function using methods like \textbf{Stochastic gradient descent}. The input is given to the network in a feed forward fashion and the parameters aremodified from the last layer to the first (\textbf{Backpropogation}). Neural Networks by design require huge amounts of training data and take a large time to get trained. For some perspective most current state of the art image classifiers have $> 100 million$ parameters and are trained on more than 1.2 million images. 
@@ -165,7 +180,7 @@
 					We will then try out different approaches of video representation like:
 					\begin{itemize}
 						\item
-							Mean Pooling\cite{meanpool} over all video frame encodings obtained to get a fixed vector representation of video.
+							Mean Pooling\cite{proposal} over all video frame encodings obtained to get a fixed vector representation of video.
 						\item
 							Using RNNs\cite{s2vt} to encode this variable length video representation.
 					\end{itemize}					
@@ -238,13 +253,27 @@
 	  \bibitem{s2vt}  Venugopalan, Subhashini and Rohrbach, Marcus and Donahue, Jeff
                     and Mooney, Raymond and Darrell, Trevor and Saenko, Kate {\em Proceedings of the IEEE International Conference on Computer Vision (ICCV)}, 2015
 	
-	  \bibitem{meanpool} Venugopalan, Subhashini and Xu, Huijuan and Donahue, Jeff and
-         Rohrbach, Marcus and Mooney, Raymond and Saenko, Kate {\em Translating Videos to Natural Language Using Deep Recurrent Neural Networks} 2015
-	
 	  \bibitem{showandtell} Oriol Vinyals and
                Alexander Toshev and
                Samy Bengio and
                Dumitru Erhan {\em Show and Tell: {A} Neural Image Caption Generator} 2014.
 
+        \bibitem{lstmexecute} Wojciech Zaremba, Ilya Sutskever {\em Learning to Execute} ICLR 2015
+         
+
+         \bibitem{temporal}  Li Yao, Atousa Torabi, Kyunghyun Cho, Nicolas Ballas, Christopher Pal, Hugo Larochelle, Aaron Courville {\em Describing Videos by Exploiting Temporal Structure} ICCV 2015
+        
+
+         \bibitem{visualqa} Aishwarya Agrawal, Jiasen Lu , Stanislaw Antol,
+		Margaret Mitchell, C. Lawrence Zitnick, Dhruv Batra, Devi Parikh {\em VQA: Visual Question Answering} 2016
+        
+
+         \bibitem{ltms} Jeff Donahue, Lisa Anne Hendricks, Marcus Rohrbach, Subhashini Venugopalan, Sergio Guadarrama, Kate Saenko, Trevor Darrell {\em Long-term Recurrent Convolutional Networks for Visual Recognition and Description} 2016
+
+         \bibitem{deep} Bengio, Yoshua; LeCun, Yann; Hinton, Geoffrey {\em Deep Learning} 2015
+
+         \bibitem{ltms} Jeff Donahue, Lisa Anne Hendricks, Marcus Rohrbach, Subhashini Venugopalan, Sergio Guadarrama, Kate Saenko, Trevor Darrell {\em Long-term Recurrent Convolutional Networks for Visual Recognition and Description} 2016
+
+         \bibitem{ltms} Jeff Donahue, Lisa Anne Hendricks, Marcus Rohrbach, Subhashini Venugopalan, Sergio Guadarrama, Kate Saenko, Trevor Darrell {\em Long-term Recurrent Convolutional Networks for Visual Recognition and Description} 2016
 	\end{thebibliography}
 \end{document}
