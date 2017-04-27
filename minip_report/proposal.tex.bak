@@ -16,8 +16,8 @@
   \end{tabular}
 }
 
-\title{\vspace*{\fill} \textbf{Video Description using Deep Learning}
-	  \\ {\large \textbf{Summer Undergraduate Research Award}}
+\title{\vspace*{\fill} \textbf{Automated Image Captioning}
+	  \\ {\large \textbf{COD310: Mini Project}}
 	  \\  \vspace{3mm} \includegraphics[width=5cm]{logo.jpg}}
 
 \author{
@@ -48,131 +48,95 @@
 \noindent\rule{3.2cm}{0.4pt} 
 \end{center}
 
-\begin{flushright}
-\noindent\rule{3.2cm}{0.4pt} 
-\\ \textbf{Prof. S. Arun Kumar}
-\\ Head of Department
-\\ Department of CSE
-\\ sak@cse.iitd.ernet.in
-\end{flushright}
-
-
 	\newpage
-
+	
 	\section{Introduction}
-		\textit{\textbf{Video Description}} is the process of discovering knowledge, structures, patterns and events of interest in the video data and describing them in natural language. Video Description is an open problem in computer vision and currently the only source of video description is manual labour. 
-		\newline
-		Video Description has wide variety of applications. It can help visually impaired people ``see'' the world by describing the scene around them. It has also use in automated surveillance by analyzing the videos in real time and reporting malicious or unusual activities. It can also be used to efficiently index large video databases based upon their content for ease of accessibility.
+	\textit{\textbf{Automated Image Description}} basically involves making a computer ``look" at an image, understand what is going on and generate a human readable description of the image. We reproduce the recent advancements in image captioning using deep neural networks, specifically an end to end image description model as described in the ``Show and Tell"\cite{showandtell} paper to achieve our goals. In simple terms the machine can interpret an image given to it because of exhaustive training over a large number of images of situations and objects common to human experience.
+	
+	\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{children.jpeg}
+	\caption{Description: A group of young children playing a game of soccer}
+	\centering
+	\end{figure}
 
+	\section{Motivation}
+
+The inspiration for this project came from our plan to do a SURA project on ``Video Description". Since image description has recently been done to a reasonable accuracy so the first step for doing video description is to understand and implement current state of the art image description / captioning techniques. Thus the primary objective of this mini project was to familarize ourselves with Deep Learning Techniques, learn to use the libraries and to gain insight into how image captioning is performed so that we can move onto the more complicated task of video captioning .	
+
+	\section{Methodology}
+		Image captioning model basically consists of two broad models:
+		\begin{enumerate}
+		\item
+			\textbf{Image Encoder}: A deep CNN network (Inception V3) to encode images to fixed length vector representation.
+		\item
+			\textbf{Sequence Decoder}: An LSTM network to decode the encoded information in form of description.
+		\end{enumerate}
+	
 		\begin{figure}[ht!]
 		\centering
-		\includegraphics[width=1.0\textwidth]{description.png}
-		\caption{Sample Video Description\label{fig0}}
-		\end{figure}		
-
-		Most of the prior work in this field is focused on generating natural language descriptions from images.\newline
-		Our aim is to utilize these new techniques in the field of image captioning and generate natural language descriptions from video data. Basically this project will involve first encoding video data using convolutinal networks and then use recurrent neural networks (specifically LSTMs) to generate descriptions of these videos. Further, we will also explore using optical flow based models to improve description of videos.
-
-
-	\section{Objectives}
-		Our main objective in this project is to make a model which describes videos. For this, we will construct a deep neural network and then train it with a large database of videos with corresponding descriptions so that our model learns to describe videos.\\
-		After training our model, we will get a system in which takes video as an input and outputs a text description of the video file.\\
-		The video that we are trying to describe will be taken from the datasets metioned in section 4 . As these are datasets of videos taken from varied situations and circumstances, we believe that they will generalize well on any input video. From this, we will also be able to show that specialized video description (like survelliance) can be done given appropriate amounts of labelled data.
-\section{Approach to the project}
-		The basic approach is to train our model using videos that already have a description, so that our networks ``learns'' to describe videos.\\
-		In order to achieve this we have broken down our problem in several parts. First, we will be implementing image captioning in order to be able to encode individual video frames in fixed-length vector representation.
-		Then, we will be using our constructed image captioning network's CNN (image encoder) to encode video frames sampled at a fixed interval.
-		We will then use Recurrent Neural Networks to translate this representation of video into natural language domain. This translation will be achieved by using a set of encoder and decoder RNNs. Since we are working with variable length input and output, we will specifically be using LSTMs (Long Short Term Memory Networks) for encoding and decoding purposes, as they have been proven to be excellent in machine translation and generalize very well on long data input.
-		\begin{enumerate}
-			\item Image Captioning
-			\begin{enumerate}
-				\item
-					Construct a convolutional neural network (VGG/Inception V3) with pre-trained weights for object classification.
-				\item
-					Make an RNN (LSTM) network\cite{showandtell} that takes a encoded image (using CNN) as input and then translates the image representation into natural language text.
-				\item
-					Train the model on datasets like MS COCO which consists of large number of captioned images.
-			\end{enumerate}
-			\item Video Representation
-			\begin{enumerate}
-				\item
-					We will first sample video at a fixed rate and convert each individual frame to a fixed length vector representation using the network trained in image captioning part.
-				\item
-					We will then try out different approaches of video representation like:
-					\begin{itemize}
-						\item
-							Mean Pooling over all video frame encodings obtained to get a fixed vector representation of video\cite{proposal}.
-						\item
-							Using RNNs to encode this variable length video representation\cite{s2vt}.
-						\item
-							Using 3D CNNs to directly encode videos and use simple RNNs for description generation\cite{temporal}.
-					\end{itemize}					
-			\end{enumerate}
-			\item Natural Language Conversion
-			\begin{enumerate}
-				\item
-					Based on how we choose to encode our video, we will have to select appropriate architecture of LSTM to be used to decode the representation
-				\begin{figure}[ht!]
-				\centering
-					\includegraphics[width=10cm]{s2vt.png}
-					\caption{Video description model with 2 LSTM levels\label{fig1}}
-				\end{figure}
-
-				\item
-					One popular choice\cite{s2vt}(Figure~\ref{fig1}) that we will try out first will be to use a two level LSTM model that will do a sequence to sequence mapping from variable length video representation to variable length natural language sentence.
-				\item
-					Then we will train our model on the training data we have obtained and plot the learning curves.
-				\item
-					We will also have to check for over-fitting and under-fitting during our training process and finetune our hyper parameters according to it.
-			\end{enumerate}
-			\item Further Possibilities
-			\begin{enumerate}
-				\item We will look for techniques of data augmentation and transfer learning\cite{proposal} to compensate for the limited amount of training data for video description.
-				\item We will also look into some recent techniques of using optical flow for attention modelling\cite{s2vt} which has shown in some cases to improve the results of action recognition.
-				\item We will also consider using more efficient vocabulary representation as compared to one hot encoding because vocabulary in this case would be very large.
-				\item Try to make forward propagation fast and more memory efficient.
-				\item We will also try to develop an end user application that will speak out description of a video that a person records.
-				\item A future extension of this project is to design a system which can answer questions based upon a video, similar to \cite{visualqa}.
-			\end{enumerate}
-		\end{enumerate}
-
+		\includegraphics[width=0.8\textwidth]{model.png}
+		\caption{High level representation of image captioning model}
+		\centering
+		\end{figure}
 	
-
-	\section{Datasets}
-		Though video description datasets are scarce, we have found some viable options that can be utilized. These datasets are not very large (unlike image captioning datasets like MSCOCO), but we are confident that indicative results can be obtained from them. Some of these datasets are:
-		\begin{enumerate}
-		\item
-			\textbf{Microsoft Research - Video to Text (MSR-VTT)}: The dataset contains 41.2 hours and 200K clip-sentence pairs in total, covering the most comprehensive categories and diverse visual content, and representing the largest dataset in terms of sentence and vocabulary.
-		\item
-			\textbf{MPII Movie Description Dataset (MPII-MD)}: MPII-MD contains around 68,000 video clips extracted from 94 Hollywood movies. Each clip is accompanied with a single sentence description which is sourced from movie scripts and audio description (AD) data.
-		\item
-			\textbf{Montreal Video Annotation Dataset (M-VAD)}: The M-VAD movie description corpus is another recent collection of about 49,000 short video clips from 92 movies. It is similar to MPII-MD, but only contains AD data and only provides automatic alignment.
-		\end{enumerate}
-		We are also considering the possibility of using annotated movies for visually impaired people as datasets to train for video description.
-
-	\section{Uses and applications}
-			\begin{itemize}
-				\item
-					Assisting visually impaired people to get description of their surroundings, thus enabling them to ``see''.
-				\item
-					Very useful for automated surveillance and theft detection by being able to analyze large amounts of data which is unfeasible to be done by humans.
-				\item
-					Allowing content based video retrieval by describing the contents of video in textual format which is indexable by web crawlers.
-				\item
-					This can also be used to detect catastrophic events through security cameras like fire breakout, murder etc.
-				\item
-					This project can also be applied in helping robotic vision as this project basically allows one to understand what is happening in the video and thus robots will be able to get a ``true'' sense of their surroundings.
-			\end{itemize}
-
-	\section{Budget and duration}	
-		\subsection{Budget}
-			No budget is required for this project.			
-			%Rs. 10,000 will be required for purchasing GPU instance in AWS servers as the project will require an on-demand access to very powerful GPU during training process.
-			% Rs. 25,000 will be needed to purchase an android smart phone having high quality sensors and a high resolution camera.
-					
-		\subsection{Duration}
-			We will try to complete this project by the end of the summer break i.e. the end of July, 2017. 
-
+		\subsection{Image Encoder}
+			Image encoder is basically a deep CNN network pretrained on image classification dataset (ImageNet). This was chosen because CNNs are state-of-art models for object recognition and as image description relies heavily on object recognition, it became an apparent choice. Also, as these were pretrained on large object classification datasets, it was certain that they are very well optimised and are able to gather high level information from images and thus are suitable for encoding images to fixed length vector.
+		\subsection{Sequence Decoder}
+			LSTM were used as sequence decoders. This is so because LSTM have been very successful in tackling the problem of keeping long term dependencies and deal well with problem of exploding and vanishing gradients. Basically this unit took a fixed length vector (encoded image) as input and gave out a complete sentence that represented that input.\\
+			These underlying process that is followed is:
+			\begin{subsubsection}{Training Process}
+				\begin{enumerate}
+				\item Encoded image is fed into LSTM network to inform it about the contents
+				\item A special start symbol is fed into LSTM to mark the start of sentence.
+				\item For each word in our dictionary, LSTM unit gives a probability of it being the first word of our predicted caption.
+				\item Then first word from the correct caption is given as input to LSTM unit and LSTM outputs the probability for second word.
+				\item We then recursively do this procedure until we consume our whole caption.
+				\item The loss is then calculated as sum of negative log probabilities of prediciting correct word at each step above.
+				\end{enumerate}
+			\end{subsubsection}
+			\begin{subsubsection}{Inference Process}
+				\begin{enumerate}
+				\item Encoded image is fed into LSTM network to inform it about the contents
+				\item A special start symbol is fed into LSTM to mark the start of sentence.
+				\item For each word in our dictionary, LSTM unit gives a probability of it being the first word of our predicted caption.
+				\item We take the word with highest probability as our first word and feed it into LSTM to get second word
+				\item We then recursively do this procedure until we get special END word as output or we reach max length.
+				\item The caption generated is basically just the sequence of predicted words by our LSTM.
+				\end{enumerate}
+			\end{subsubsection}
+		\subsection{Overall Model}
+			\subsubsection{Training}
+				\begin{itemize}
+				\item An image and caption pair is fetched from training dataset
+				\item Image is fed into Image Encoder network to generate encoded vector.
+				\item This vector along with correct caption is fed into Sequence Decoder network to get loss.
+				\item This loss is backpropagated in neural network so that it can "learn" from process.
+				\end{itemize}
+			\subsubsection{Inference}
+				\begin{itemize}
+				\item Test image is fed into Image Encoder network to generate encoded vector.
+				\item This vector fed into Sequence Decoder network which generates a set of captions.
+				\item No backpropagation happens in this case as we don't know the correct caption and are just testing our network.
+				\end{itemize}	
+	\section{Our Work}
+	
+ We were new to the field of deep learning, thus this project involved a lot of independent study so that we could understand the field and follow along with literature. We referred to Stanford's CS231N \cite{cs231n} and fast.ai's Deep Learning MOOC\cite{fastai} for a thorough introduction to these techniques and their implementation. We also learned to program in Keras and Tensorflow, two widely popular deep learning libraries which are programmed using Python.  After getting a grasp of deep learning we proceeded into the image captioning part of the project. Here we first studied the ``Show and Tell" paper\cite{showandtell} thoroughly and figured out how it worked. We then took the reference code of ``Show and Tell" for Tensorflow provided by the authors and modified it to run on our computers with any provided image.\\\\Deep Learning models require ``training" before they can be used, so we downloaded the MSCOCO \cite{mscoco} dataset of 80,000 images along with their descriptions. We used a pre-trained Inception v3  model for the CNN, this is basically a 30 layer network which produces a vector encoding of an image which can be used further. The LSTM network in the model still needs to be trained so we set up the whole training process on a computer in the lab. The training process of the LSTM network with the 80k image dataset took about 2 days on one computer in the Vision Lab. Further we performed Fine-Tuning on the dataset so that the CNN layer could be appropiately adjusted. The finetuning process took about 4 days on the same computer. After this we tried to use the model to caption several images locally and it performed well. we even set up a demo on Open House where people could choose images and have them described by our neural model locally. Finally, to assess how good, the whole image description stack worked we conducted a small survey where we gave a group of people some images which had been captioned by the model and asked them to score it on the basis of accuracy and relevance. The results are presented with this report.
+\newpage
+	\section{Results}
+		After training our model we tested it on a random batch of images to generate captions. Then we setup a small survey in which we asked people to rate the caption on the basis of relevance . We also got reasonable idea about its accuracy during our demo in Open House where we asked people to give any image as input to our model and rate the caption generated by it. Some of the sample captions generated are as follows:
+	
+\begin{figure}[ht!]
+			    	\centering
+					\includegraphics[scale=0.266]{margao_railwaystation_1441973309.jpg}
+					\caption{A group of people standing next to a train .\label{fig11}}
+\end{figure}
+\begin{figure}[ht!]
+			    	\centering
+					\includegraphics[scale=0.266]{skyrim_Horse01-625x352.jpg}
+					\caption{A man riding a horse in the snow .\label{fig12}}
+\end{figure}
+	\newpage
 	\section{Background} 
 			\subsection{Deep Learning}
 				Deep Learning is a branch of machine learning in which multiple parameter based models are used in series. In a deep network, there are many layers between the input and output, allowing the algorithm to be executed in multiple processing steps, composed of \textbf{multiple linear and non-linear transformations}. At each layer, the signal is transformed by a processing unit, like an artificial neuron, whose parameters are \textbf{`learned'} through training. Deep Learning has been shown to excel in tasks where the goal is to find \textbf{intuitive} patterns in the data.\cite{deep} In particular, in the field of Computer Vision, deep networks are increasingly used to extract \textbf{feature descriptions and inter-relationships between features} from images.\cite{cs231n}
@@ -245,11 +209,6 @@
 
 	\begin{thebibliography}{1}
 	
-	  \bibitem{proposal} Subhashini Venugopalan {\em Natural Language Video Description using Deep Recurrent Neural Networks}, 2015.
-	
-	  \bibitem{s2vt}  Venugopalan, Subhashini and Rohrbach, Marcus and Donahue, Jeff
-                    and Mooney, Raymond and Darrell, Trevor and Saenko, Kate {\em Proceedings of the IEEE International Conference on Computer Vision (ICCV)}, 2015
-	
 	  \bibitem{showandtell} Oriol Vinyals and
                Alexander Toshev and
                Samy Bengio and
@@ -257,13 +216,6 @@
 
         \bibitem{lstmexecute} Wojciech Zaremba, Ilya Sutskever {\em Learning to Execute} ICLR 2015
          
-
-         \bibitem{temporal}  Li Yao, Atousa Torabi, Kyunghyun Cho, Nicolas Ballas, Christopher Pal, Hugo Larochelle, Aaron Courville {\em Describing Videos by Exploiting Temporal Structure} ICCV 2015
-        
-
-         \bibitem{visualqa} Aishwarya Agrawal, Jiasen Lu , Stanislaw Antol,
-		Margaret Mitchell, C. Lawrence Zitnick, Dhruv Batra, Devi Parikh {\em VQA: Visual Question Answering} 2016
-        
 
          \bibitem{ltms} Jeff Donahue, Lisa Anne Hendricks, Marcus Rohrbach, Subhashini Venugopalan, Sergio Guadarrama, Kate Saenko, Trevor Darrell {\em Long-term Recurrent Convolutional Networks for Visual Recognition and Description} 2016
 
@@ -275,6 +227,12 @@
          \bibitem{cs231n} Andrej Karpathy {\em 
 			CS231n Convolutional Neural Networks for Visual Recognition
 		} http://cs231n.github.io/convolutional-networks/
+
+		\bibitem{mscoco} Tsung-Yi Lin, Genevieve Patterson et al. {\em MS COCO: Common Objects in Context
+		}  http://mscoco.org/dataset
+
+		\bibitem{fastai} Jeremy Howard {\em Practical Deep Learning For Coders, Part 1
+		}  http://course.fast.ai/
 
 		\bibitem{fullyconnected} Santanu Chaudhury, Anupama Mallik, Hiranmay Ghosh {\em Multimedia Ontology: Representation and Applications
 		} 
