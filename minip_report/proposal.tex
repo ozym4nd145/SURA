@@ -60,7 +60,7 @@
 	\newpage
 	
 	\section{Introduction}
-	\textit{\textbf{Automated Image Description}} basically involves making a computer "look" at an image, understand what is going on and generate a human readable description of the image. We reproduce the recent advancements in image captioning using deep neural networks, specifically an end to end image description model as described in the "Show and Tell" paper to achieve our goals. In simple terms the machine can interpret an image given to it because of exhaustive training over a large number of images of situations and objects common to human experience. 
+	\textit{\textbf{Automated Image Description}} basically involves making a computer "look" at an image, understand what is going on and generate a human readable description of the image. We reproduce the recent advancements in image captioning using deep neural networks, specifically an end to end image description model as described in the "Show and Tell"\cite{showandtell} paper to achieve our goals. In simple terms the machine can interpret an image given to it because of exhaustive training over a large number of images of situations and objects common to human experience. 
 
 
 	\section{Motivation}
@@ -117,9 +117,18 @@ The inspiration for this project came from our plan to do a SURA project on ``Vi
 	
 	\section{Our Work}
 	
- We were new to the field of deep learning, thus this project involved a lot of independent study so that we could understand the field and follow along with literature. We referred to Stanford's CS231N [ref] and fast.ai's Deep Learning MOOC[ref] for a thorough introduction to these techniques and their implementation. We also learned to program in Keras and Tensorflow, two widely popular deep learning libraries which are programmed using Python.  After getting a grasp of deep learning we proceeded into the image captioning part of the project. Here we first studied the "Show and Tell" paper thoroughly and figured out how it worked. We then took the reference code of "Show and Tell" for Tensorflow provided by the authors and modified it to make it run on our computers with any provided image. Deep Learning models require "training" before they can be used, so we downloaded the MSCOCO [ref] dataset of 80,000 images along with their descriptions. We used a pre-trained Inception v3 [ref] model for the CNN, this is basically a 30 layer network which produces a vector encoding of an image which can be used further. The LSTM network in the model still needs to be trained so we set up the whole training process on a computer in the lab. The training process of the LSTM network with the 80k image dataset took about 2 days on one computer in the Vision Lab. Further we performed Fine-Tuning on the dataset so that the CNN layer could be appropiately adjusted. The finetuning process took about 4 days on the same computer. After this we tried to use the model to caption several images locally and it performed well. we even set up a demo on Open House where people could choose images and have them described by our neural model locally. Finally, to assess how good, the whole image description stack worked we conducted a small survey where we gave a group of people some images which had been captioned by the model and asked them to score it on the basis of accuracy and relevance. The results are presented with this report.
+ We were new to the field of deep learning, thus this project involved a lot of independent study so that we could understand the field and follow along with literature. We referred to Stanford's CS231N \cite{cs231n} and fast.ai's Deep Learning MOOC\cite{fastai} for a thorough introduction to these techniques and their implementation. We also learned to program in Keras and Tensorflow, two widely popular deep learning libraries which are programmed using Python.  After getting a grasp of deep learning we proceeded into the image captioning part of the project. Here we first studied the "Show and Tell" paper\cite{showandtell} thoroughly and figured out how it worked. We then took the reference code of "Show and Tell" for Tensorflow provided by the authors and modified it to make it run on our computers with any provided image. Deep Learning models require "training" before they can be used, so we downloaded the MSCOCO \cite{mscoco} dataset of 80,000 images along with their descriptions. We used a pre-trained Inception v3  model for the CNN, this is basically a 30 layer network which produces a vector encoding of an image which can be used further. The LSTM network in the model still needs to be trained so we set up the whole training process on a computer in the lab. The training process of the LSTM network with the 80k image dataset took about 2 days on one computer in the Vision Lab. Further we performed Fine-Tuning on the dataset so that the CNN layer could be appropiately adjusted. The finetuning process took about 4 days on the same computer. After this we tried to use the model to caption several images locally and it performed well. we even set up a demo on Open House where people could choose images and have them described by our neural model locally. Finally, to assess how good, the whole image description stack worked we conducted a small survey where we gave a group of people some images which had been captioned by the model and asked them to score it on the basis of accuracy and relevance. The results are presented with this report.
 
-
+\begin{figure}[ht!]
+			    	\centering
+					\includegraphics[scale=0.266]{margao_railwaystation_1441973309.jpg}
+					\caption{A group of people standing next to a train .\label{fig11}}
+\end{figure}
+\begin{figure}[ht!]
+			    	\centering
+					\includegraphics[scale=0.266]{skyrim_Horse01-625x352.jpg}
+					\caption{A man riding a horse in the snow .\label{fig12}}
+\end{figure}
 	\section{Results}
 			\begin{itemize}
 				\item
@@ -215,11 +224,6 @@ The inspiration for this project came from our plan to do a SURA project on ``Vi
 
 	\begin{thebibliography}{1}
 	
-	  \bibitem{proposal} Subhashini Venugopalan {\em Natural Language Video Description using Deep Recurrent Neural Networks}, 2015.
-	
-	  \bibitem{s2vt}  Venugopalan, Subhashini and Rohrbach, Marcus and Donahue, Jeff
-                    and Mooney, Raymond and Darrell, Trevor and Saenko, Kate {\em Proceedings of the IEEE International Conference on Computer Vision (ICCV)}, 2015
-	
 	  \bibitem{showandtell} Oriol Vinyals and
                Alexander Toshev and
                Samy Bengio and
@@ -227,13 +231,6 @@ The inspiration for this project came from our plan to do a SURA project on ``Vi
 
         \bibitem{lstmexecute} Wojciech Zaremba, Ilya Sutskever {\em Learning to Execute} ICLR 2015
          
-
-         \bibitem{temporal}  Li Yao, Atousa Torabi, Kyunghyun Cho, Nicolas Ballas, Christopher Pal, Hugo Larochelle, Aaron Courville {\em Describing Videos by Exploiting Temporal Structure} ICCV 2015
-        
-
-         \bibitem{visualqa} Aishwarya Agrawal, Jiasen Lu , Stanislaw Antol,
-		Margaret Mitchell, C. Lawrence Zitnick, Dhruv Batra, Devi Parikh {\em VQA: Visual Question Answering} 2016
-        
 
          \bibitem{ltms} Jeff Donahue, Lisa Anne Hendricks, Marcus Rohrbach, Subhashini Venugopalan, Sergio Guadarrama, Kate Saenko, Trevor Darrell {\em Long-term Recurrent Convolutional Networks for Visual Recognition and Description} 2016
 
@@ -245,6 +242,12 @@ The inspiration for this project came from our plan to do a SURA project on ``Vi
          \bibitem{cs231n} Andrej Karpathy {\em 
 			CS231n Convolutional Neural Networks for Visual Recognition
 		} http://cs231n.github.io/convolutional-networks/
+
+		\bibitem{mscoco} Tsung-Yi Lin, Genevieve Patterson et al. {\em MS COCO: Common Objects in Context
+		}  http://mscoco.org/dataset
+
+		\bibitem{fastai} Jeremy Howard {\em Practical Deep Learning For Coders, Part 1
+		}  http://course.fast.ai/
 
 		\bibitem{fullyconnected} Santanu Chaudhury, Anupama Mallik, Hiranmay Ghosh {\em Multimedia Ontology: Representation and Applications
 		} 
