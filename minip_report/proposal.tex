@@ -48,19 +48,17 @@
 \noindent\rule{3.2cm}{0.4pt} 
 \end{center}
 
-\begin{flushright}
-\noindent\rule{3.2cm}{0.4pt} 
-\\ \textbf{Prof. S. Arun Kumar}
-\\ Head of Department
-\\ Department of CSE
-\\ sak@cse.iitd.ernet.in
-\end{flushright}
-
-
 	\newpage
 	
 	\section{Introduction}
-	\textit{\textbf{Automated Image Description}} basically involves making a computer "look" at an image, understand what is going on and generate a human readable description of the image. We reproduce the recent advancements in image captioning using deep neural networks, specifically an end to end image description model as described in the "Show and Tell" paper to achieve our goals. In simple terms the machine can interpret an image given to it because of exhaustive training over a large number of images of situations and objects common to human experience. 
+	\textit{\textbf{Automated Image Description}} basically involves making a computer "look" at an image, understand what is going on and generate a human readable description of the image. We reproduce the recent advancements in image captioning using deep neural networks, specifically an end to end image description model as described in the "Show and Tell" paper to achieve our goals. In simple terms the machine can interpret an image given to it because of exhaustive training over a large number of images of situations and objects common to human experience.
+	
+	\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{children.jpeg}
+	\caption{Description: A group of young children playing a game of soccer}
+	\centering
+	\end{figure}
 
 
 	\section{Motivation}
@@ -75,6 +73,14 @@ The inspiration for this project came from our plan to do a SURA project on ``Vi
 		\item
 			\textbf{Sequence Decoder}: An LSTM network to decode the encoded information in form of description.
 		\end{enumerate}
+	
+		\begin{figure}[ht!]
+		\centering
+		\includegraphics[width=0.8\textwidth]{model.png}
+		\caption{High level representation of image captioning model}
+		\centering
+		\end{figure}
+	
 		\subsection{Image Encoder}
 			Image encoder is basically a deep CNN network pretrained on image classification dataset (ImageNet). This was chosen because CNNs are state-of-art models for object recognition and as image description relies heavily on object recognition, it became an apparent choice. Also, as these were pretrained on large object classification datasets, it was certain that they are very well optimised and are able to gather high level information from images and thus are suitable for encoding images to fixed length vector.
 		\subsection{Sequence Decoder}
@@ -114,35 +120,14 @@ The inspiration for this project came from our plan to do a SURA project on ``Vi
 				\item This vector fed into Sequence Decoder network which generates a set of captions.
 				\item No backpropagation happens in this case as we don't know the correct caption and are just testing our network.
 				\end{itemize}	
-	
 	\section{Our Work}
 	
- We were new to the field of deep learning, thus this project involved a lot of independent study so that we could understand the field and follow along with literature. We referred to Stanford's CS231N [ref] and fast.ai's Deep Learning MOOC[ref] for a thorough introduction to these techniques and their implementation. We also learned to program in Keras and Tensorflow, two widely popular deep learning libraries which are programmed using Python.  After getting a grasp of deep learning we proceeded into the image captioning part of the project. Here we first studied the "Show and Tell" paper thoroughly and figured out how it worked. We then took the reference code of "Show and Tell" for Tensorflow provided by the authors and modified it to make it run on our computers with any provided image. Deep Learning models require "training" before they can be used, so we downloaded the MSCOCO [ref] dataset of 80,000 images along with their descriptions. We used a pre-trained Inception v3 [ref] model for the CNN, this is basically a 30 layer network which produces a vector encoding of an image which can be used further. The LSTM network in the model still needs to be trained so we set up the whole training process on a computer in the lab. The training process of the LSTM network with the 80k image dataset took about 2 days on one computer in the Vision Lab. Further we performed Fine-Tuning on the dataset so that the CNN layer could be appropiately adjusted. The finetuning process took about 4 days on the same computer. After this we tried to use the model to caption several images locally and it performed well. we even set up a demo on Open House where people could choose images and have them described by our neural model locally. Finally, to assess how good, the whole image description stack worked we conducted a small survey where we gave a group of people some images which had been captioned by the model and asked them to score it on the basis of accuracy and relevance. The results are presented with this report.
+Due to not having a background in Maching Learning, our primary time investment was in study of it so that we could understand the field and follow along with literature. We referred to Stanford's CS231N [ref] and fast.ai's Deep Learning MOOC[ref] for a thorough introduction to these techniques and their implementation. We also learned to program in Keras and Tensorflow, two widely popular deep learning libraries which are programmed using Python.  After getting a grasp of deep learning we proceeded into the image captioning part of the project. Here we first studied the "Show and Tell" paper thoroughly and figured out how it worked. We then took the reference code of "Show and Tell" for Tensorflow provided by the authors and modified it to run on our computers with any provided image.\\Deep Learning models require "training" before they can be used, so we downloaded the MSCOCO [ref] dataset of 1,20,000 images along with their descriptions. We used a pre-trained Inception v3 [ref] model for the CNN, this is basically a 30 layer network which produces a vector encoding of an image which can be used further. The LSTM network in the model still needed to be trained, so we set up the whole training process on lab computer. The training process of the LSTM network with the 80k image dataset took about 2 days on one computer in the Vision Lab. Further we performed Fine-Tuning on the dataset so that the CNN layer could be appropriately adjusted. The finetuning process took about 6 days on the same computer. After this we tried to use the model to caption several images locally and it performed well. We even set up a demo on Open House where people could choose images and have them described by our neural model locally. Finally, to assess how good, the whole image description stack worked we conducted a small survey where we gave a group of people some images which had been captioned by the model and asked them to score it on the basis of accuracy and relevance. The results of the survey will be given during presentation.
 
 
 	\section{Results}
-			\begin{itemize}
-				\item
-					Assisting visually impaired people to get description of their surroundings, thus enabling them to ``see''.
-				\item
-					Very useful for automated surveillance and theft detection by being able to analyze large amounts of data which is unfeasible to be done by humans.
-				\item
-					Allowing content based video retrieval by describing the contents of video in textual format which is indexable by web crawlers.
-				\item
-					This can also be used to detect catastrophic events through security cameras like fire breakout, murder etc.
-				\item
-					This project can also be applied in helping robotic vision as this project basically allows one to understand what is happening in the video and thus robots will be able to get a ``true'' sense of their surroundings.
-			\end{itemize}
-
-	\section{Future Plans}	
-		\subsection{Budget}
-			No budget is required for this project.			
-			%Rs. 10,000 will be required for purchasing GPU instance in AWS servers as the project will require an on-demand access to very powerful GPU during training process.
-			% Rs. 25,000 will be needed to purchase an android smart phone having high quality sensors and a high resolution camera.
-					
-		\subsection{Duration}
-			We will try to complete this project by the end of the summer break i.e. the end of July, 2017. 
-
+		After training our model we tested it on a random batch of images to generate captions. Then we setup a small survey in which we asked people to rate the caption on the basis of relevance . We also got reasonable idea about its accuracy during our demo in Open House where we asked people to give any image as input to our model and rate the caption generated by it. Some of the sample captions generated are as follows:
+	\newpage
 	\section{Background} 
 			\subsection{Deep Learning}
 				Deep Learning is a branch of machine learning in which multiple parameter based models are used in series. In a deep network, there are many layers between the input and output, allowing the algorithm to be executed in multiple processing steps, composed of \textbf{multiple linear and non-linear transformations}. At each layer, the signal is transformed by a processing unit, like an artificial neuron, whose parameters are \textbf{`learned'} through training. Deep Learning has been shown to excel in tasks where the goal is to find \textbf{intuitive} patterns in the data.\cite{deep} In particular, in the field of Computer Vision, deep networks are increasingly used to extract \textbf{feature descriptions and inter-relationships between features} from images.\cite{cs231n}
