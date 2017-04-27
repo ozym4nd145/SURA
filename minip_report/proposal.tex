@@ -16,8 +16,8 @@
   \end{tabular}
 }
 
-\title{\vspace*{\fill} \textbf{Video Description using Deep Learning}
-	  \\ {\large \textbf{Summer Undergraduate Research Award}}
+\title{\vspace*{\fill} \textbf{Automated Image Captioning}
+	  \\ {\large \textbf{COD310: Mini Project}}
 	  \\  \vspace{3mm} \includegraphics[width=5cm]{logo.jpg}}
 
 \author{
@@ -71,13 +71,13 @@
 		\end{figure}		
 
 		Most of the prior work in this field is focused on generating natural language descriptions from images.\newline
-		Our aim is to utilize these new techniques in the field of image captioning and generate natural language descriptions from video data. Basically this project will involve first encoding video data using convolutinal networks and then use recurrent neural networks (specifically LSTMs) to generate descriptions of these videos. Further, we will also explore using optical flow based models to improve description of videos.
+		Our aim is to utilize these new techniques in the field of image captioning and generate natural language descriptions from video data. Basically this project will involve first encoding video data using convolutional networks and then using recurrent neural networks (specifically LSTMs) to generate descriptions of these videos. Further, we will also explore using optical flow based models to improve description of videos.
 
 
-	\section{Objectives}
+	\section{Procedure}
 		Our main objective in this project is to make a model which describes videos. For this, we will construct a deep neural network and then train it with a large database of videos with corresponding descriptions so that our model learns to describe videos.\\
 		After training our model, we will get a system in which takes video as an input and outputs a text description of the video file.\\
-		The video that we are trying to describe will be taken from the datasets metioned in section 4 . As these are datasets of videos taken from varied situations and circumstances, we believe that they will generalize well on any input video. From this, we will also be able to show that specialized video description (like survelliance) can be done given appropriate amounts of labelled data.
+		The video that we are trying to describe will be taken from the datasets mentioned in section 4 . As these are datasets of videos taken from varied situations and circumstances, we believe that they will generalize well on any input video. From this, we will also be able to show that specialized video description (like surveillance) can be done given appropriate amounts of labelled data.
 \section{Approach to the project}
 		The basic approach is to train our model using videos that already have a description, so that our networks ``learns'' to describe videos.\\
 		In order to achieve this we have broken down our problem in several parts. First, we will be implementing image captioning in order to be able to encode individual video frames in fixed-length vector representation.
@@ -138,7 +138,7 @@
 
 	
 
-	\section{Datasets}
+	\section{Working}
 		Though video description datasets are scarce, we have found some viable options that can be utilized. These datasets are not very large (unlike image captioning datasets like MSCOCO), but we are confident that indicative results can be obtained from them. Some of these datasets are:
 		\begin{enumerate}
 		\item
@@ -150,7 +150,7 @@
 		\end{enumerate}
 		We are also considering the possibility of using annotated movies for visually impaired people as datasets to train for video description.
 
-	\section{Uses and applications}
+	\section{Results}
 			\begin{itemize}
 				\item
 					Assisting visually impaired people to get description of their surroundings, thus enabling them to ``see''.
@@ -164,7 +164,7 @@
 					This project can also be applied in helping robotic vision as this project basically allows one to understand what is happening in the video and thus robots will be able to get a ``true'' sense of their surroundings.
 			\end{itemize}
 
-	\section{Budget and duration}	
+	\section{Future Plans}	
 		\subsection{Budget}
 			No budget is required for this project.			
 			%Rs. 10,000 will be required for purchasing GPU instance in AWS servers as the project will require an on-demand access to very powerful GPU during training process.

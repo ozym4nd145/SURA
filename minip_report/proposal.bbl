@@ -1,0 +1,36 @@
+\begin{thebibliography}{1}
+
+\bibitem{venugopalan:proposal15}
+Subhashini Venugopalan.
+\newblock Natural language video description using deep recurrent neural
+  networks, November 2015.
+\newblock PhD proposal, Department of Computer Science, The University of Texas
+  at Austin.
+
+\bibitem{venugopalan15iccv}
+Subhashini Venugopalan, Marcus Rohrbach, Jeff Donahue, Raymond Mooney, Trevor
+  Darrell, and Kate Saenko.
+\newblock Sequence to sequence -- video to text.
+\newblock In {\em Proceedings of the IEEE International Conference on Computer
+  Vision (ICCV)}, 2015.
+
+\bibitem{venugopalan:naacl15}
+Subhashini Venugopalan, Huijuan Xu, Jeff Donahue, Marcus Rohrbach, Raymond
+  Mooney, and Kate Saenko.
+\newblock Translating videos to natural language using deep recurrent neural
+  networks.
+\newblock In {\em {NAACL} {HLT}}, 2015.
+
+\bibitem{venugopalan16emnlp}
+Subhashini Venugopalan, Lisa~Anne Hendricks, Raymond Mooney, and Kate Saenko.
+\newblock Improving lstm-based video description with linguistic knowledge
+  mined from text.
+\newblock In {\em Conference on Empirical Methods in Natural Language
+  Processing (EMNLP)}, 2016.
+
+\bibitem{DBLP:journals/corr/VinyalsTBE14}
+Oriol Vinyals, Alexander Toshev, Samy Bengio, and Dumitru Erhan.
+\newblock Show and tell: {A} neural image caption generator.
+\newblock {\em CoRR}, abs/1411.4555, 2014.
+
+\end{thebibliography}
