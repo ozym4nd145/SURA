@@ -75,6 +75,7 @@
 
 
 	\section{Procedure}
+		
 		Our main objective in this project is to make a model which describes videos. For this, we will construct a deep neural network and then train it with a large database of videos with corresponding descriptions so that our model learns to describe videos.\\
 		After training our model, we will get a system in which takes video as an input and outputs a text description of the video file.\\
 		The video that we are trying to describe will be taken from the datasets mentioned in section 4 . As these are datasets of videos taken from varied situations and circumstances, we believe that they will generalize well on any input video. From this, we will also be able to show that specialized video description (like surveillance) can be done given appropriate amounts of labelled data.
@@ -139,17 +140,52 @@
 	
 
 	\section{Working}
-		Though video description datasets are scarce, we have found some viable options that can be utilized. These datasets are not very large (unlike image captioning datasets like MSCOCO), but we are confident that indicative results can be obtained from them. Some of these datasets are:
+		Image captioning model basically consists of two broad models:
 		\begin{enumerate}
 		\item
-			\textbf{Microsoft Research - Video to Text (MSR-VTT)}: The dataset contains 41.2 hours and 200K clip-sentence pairs in total, covering the most comprehensive categories and diverse visual content, and representing the largest dataset in terms of sentence and vocabulary.
+			\textbf{Image Encoder}: A deep CNN network (Inception V3) to encode images to fixed length vector representation.
 		\item
-			\textbf{MPII Movie Description Dataset (MPII-MD)}: MPII-MD contains around 68,000 video clips extracted from 94 Hollywood movies. Each clip is accompanied with a single sentence description which is sourced from movie scripts and audio description (AD) data.
-		\item
-			\textbf{Montreal Video Annotation Dataset (M-VAD)}: The M-VAD movie description corpus is another recent collection of about 49,000 short video clips from 92 movies. It is similar to MPII-MD, but only contains AD data and only provides automatic alignment.
+			\textbf{Sequence Decoder}: An LSTM network to decode the encoded information in form of description.
 		\end{enumerate}
-		We are also considering the possibility of using annotated movies for visually impaired people as datasets to train for video description.
-
+		\subsection{Image Encoder}
+			Image encoder is basically a deep CNN network pretrained on image classification dataset (ImageNet). This was chosen because CNNs are state-of-art models for object recognition and as image description relies heavily on object recognition, it became an apparent choice. Also, as these were pretrained on large object classification datasets, it was certain that they are very well optimised and are able to gather high level information from images and thus are suitable for encoding images to fixed length vector.
+		\subsection{Sequence Decoder}
+			LSTM were used as sequence decoders. This is so because LSTM have been very successful in tackling the problem of keeping long term dependencies and deal well with problem of exploding and vanishing gradients. Basically this unit took a fixed length vector (encoded image) as input and gave out a complete sentence that represented that input.\\
+			These underlying process that is followed is:
+			\begin{subsubsection}{Training Process}
+				\begin{enumerate}
+				\item Encoded image is fed into LSTM network to inform it about the contents
+				\item A special start symbol is fed into LSTM to mark the start of sentence.
+				\item For each word in our dictionary, LSTM unit gives a probability of it being the first word of our predicted caption.
+				\item Then first word from the correct caption is given as input to LSTM unit and LSTM outputs the probability for second word.
+				\item We then recursively do this procedure until we consume our whole caption.
+				\item The loss is then calculated as sum of negative log probabilities of prediciting correct word at each step above.
+				\end{enumerate}
+			\end{subsubsection}
+			\begin{subsubsection}{Inference Process}
+				\begin{enumerate}
+				\item Encoded image is fed into LSTM network to inform it about the contents
+				\item A special start symbol is fed into LSTM to mark the start of sentence.
+				\item For each word in our dictionary, LSTM unit gives a probability of it being the first word of our predicted caption.
+				\item We take the word with highest probability as our first word and feed it into LSTM to get second word
+				\item We then recursively do this procedure until we get special END word as output or we reach max length.
+				\item The caption generated is basically just the sequence of predicted words by our LSTM.
+				\end{enumerate}
+			\end{subsubsection}
+		\subsection{Overall Model}
+			\subsubsection{Training}
+				\begin{itemize}
+				\item An image and caption pair is fetched from training dataset
+				\item Image is fed into Image Encoder network to generate encoded vector.
+				\item This vector along with correct caption is fed into Sequence Decoder network to get loss.
+				\item This loss is backpropagated in neural network so that it can "learn" from process.
+				\end{itemize}
+			\subsubsection{Inference}
+				\begin{itemize}
+				\item Test image is fed into Image Encoder network to generate encoded vector.
+				\item This vector fed into Sequence Decoder network which generates a set of captions.
+				\item No backpropagation happens in this case as we don't know the correct caption and are just testing our network.
+				\end{itemize}	
 	\section{Results}
 			\begin{itemize}
 				\item
