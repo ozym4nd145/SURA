@@ -1,1 +1,11 @@
 https://adeshpande3.github.io/adeshpande3.github.io/
+
+Research
+
+1. Sequence to Sequence: Video to Text (2015 ICCV)
+    Paper: http://www.cs.utexas.edu/users/ml/papers/venugopalan.iccv15.pdf
+    Code: https://github.com/vsubhashini/caffe/tree/recurrent/examples/s2vt
+    Eval Code: https://github.com/vsubhashini/caption-eval
+    Website: https://www.cs.utexas.edu/~vsub/s2vt.html
+
+

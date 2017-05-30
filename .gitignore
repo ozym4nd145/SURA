@@ -87,3 +87,11 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Custom
+ignore/
+dataset/MPII
+dataset/MVAD
+dataset/MSVD
+dataset/MSR-VTT_2016
+dataset/MSR-VTT_2017
