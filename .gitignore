@@ -91,3 +91,6 @@ ENV/
 # Custom
 ignore/
 dataset/raw
+
+#Checkpoint file
+*.ckpt
