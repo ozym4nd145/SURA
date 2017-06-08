@@ -2,15 +2,12 @@ from __future__ import division
 from __future__ import print_function
 
 import tensorflow as tf
-import numpy as np
-import pandas as pd
-
-import matplotlib.image as mpimg
-import matplotlib.pyplot as plt
 
 slim = tf.contrib.slim
 
 from nets.inception_v4 import inception_v4_base
+
+num_end_units_v4=1536
 
 def inception_v4_mod(images,
                  trainable=True,
