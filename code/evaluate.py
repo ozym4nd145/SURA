@@ -21,7 +21,7 @@ tf.flags.DEFINE_integer("eval_interval_secs", 600,
                         "Interval between evaluation runs.")
 tf.flags.DEFINE_integer("min_global_step", 1000,
                         "Minimum global step to run evaluation.")
-tf.flags.DEFINE_integer("batch_size", 500,
+tf.flags.DEFINE_integer("batch_size", 100,
                         "Number of batches to evaluate at once.")
 tf.flags.DEFINE_boolean("eval_all_models",False,
                         "Whether to evaluate all models in checkpoint_dir")
@@ -120,6 +120,9 @@ def run():
     tf.gfile.MakeDirs(eval_dir)
 
   g = tf.Graph()
+
+  evaluated_models = set([])
+
   with g.as_default():
     # Build the model for evaluation.
     model_config = configuration.ModelConfig(data_gen).config
@@ -139,19 +142,30 @@ def run():
       model_names.sort(key= lambda x: int(x[6:]) )
       for name in model_names:
         FLAGS.checkpoint_file = os.path.join(data_config["checkpoint_dir"],name)
+        evaluated_models.add(FLAGS.checkpoint_file)
         tf.logging.info("Starting evaluation of %s at " %(name) + time.strftime(
             "%Y-%m-%d-%H:%M:%S", time.localtime()))
         run_once(model, saver, val_writer,data_gen)
-    else:
-      # Run a new evaluation run every eval_interval_secs.
-      while True:
-        start = time.time()
-        tf.logging.info("Starting evaluation at " + time.strftime(
-            "%Y-%m-%d-%H:%M:%S", time.localtime()))
+
+    # Run a new evaluation run every eval_interval_secs.
+    while True:
+      start = time.time()
+      tf.logging.info("Starting evaluation at " + time.strftime(
+          "%Y-%m-%d-%H:%M:%S", time.localtime()))
+      
+      FLAGS.checkpoint_file = tf.train.latest_checkpoint(FLAGS.checkpoint_dir)
+      if not FLAGS.checkpoint_file:
+        tf.logging.info("Skipping evaluation. No checkpoint found in: %s",
+                    FLAGS.checkpoint_dir)
+      elif FLAGS.checkpoint_file in evaluated_models:
+        tf.logging.info("Skipping evaluation. No new checkpoint found in: %s",
+                    FLAGS.checkpoint_dir)
+      else:
+        evaluated_models.add(FLAGS.checkpoint_file)
         run_once(model, saver, val_writer,data_gen)
-        time_to_next_eval = start + FLAGS.eval_interval_secs - time.time()
-        if time_to_next_eval > 0:
-          time.sleep(time_to_next_eval)
+      time_to_next_eval = start + FLAGS.eval_interval_secs - time.time()
+      if time_to_next_eval > 0:
+        time.sleep(time_to_next_eval)
 
 
 def main(unused_argv):

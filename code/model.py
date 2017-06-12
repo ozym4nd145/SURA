@@ -221,12 +221,14 @@ class Model_S2VT(object):
                                                           num_outputs=self.vocab_size,
                                                           activation_fn = None,
                                                           weights_initializer=self.initializer,
+                                                          biases_initializer=self.initializer,
                                                           scope = scope)
             scope.reuse_variables()
             infer_logits_decoded = tf.contrib.layers.fully_connected(inputs=infer_input,
                                                           num_outputs=self.vocab_size,
                                                           activation_fn = None,
                                                           weights_initializer=self.initializer,
+                                                          biases_initializer=self.initializer,
                                                           scope = scope)
 
             # as the output will be a single word

@@ -52,7 +52,7 @@ class Data_Generator(object):
             words = [t for t in caption.split(" ") if len(t) > 0 ]
             caption = " ".join(words)
             self.all_words += words
-            name = caption_file['sentences'][i]['video_id']+".mp4.npy"
+            name = caption_file['sentences'][i]['video_id']+".avi.npy"
             if name in test_video_files:
                 self.dataset["test"].append({"file_name":name,"caption":caption,"real_caption": real_caption,"path": os.path.join(TEST_DIR,name)})
             if name in train_video_files:

@@ -28,7 +28,7 @@ with open(video_to_id_file,"r") as fl:
 with open(gen_file,"r") as fl:
     gen = json.loads(fl.read())
 
-gen.sort(key = lambda x: int(x["file_name"][5:][:-8]))
+gen.sort(key = lambda x: (x["file_name"]))
 
 generated = []
 

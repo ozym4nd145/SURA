@@ -43,7 +43,7 @@ for i in data_gen.dataset.keys():
 
 video_ids = list(set([i['file_name'][:-4] for i in all_data]))
 
-video_ids.sort(key= lambda x: int(x[5:][:-4]))
+video_ids.sort()
 
 for idx,name in enumerate(video_ids):
     dictionary = {}
@@ -54,7 +54,7 @@ for idx,name in enumerate(video_ids):
     video_to_id[name[:-4]] = idx
     id_to_video[idx] = name[:-4]
 
-all_data.sort(key= lambda x: int(x["file_name"][5:][:-8]))
+all_data.sort(key= lambda x: (x["file_name"]))
 
 for idx,data in enumerate(all_data):
     dictionary = {}

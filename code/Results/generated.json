@@ -1,0 +1,682 @@
+[
+    {
+        "caption": "a man is doing exercise", 
+        "image_id": 12
+    }, 
+    {
+        "caption": "a dog is moving on a road", 
+        "image_id": 45
+    }, 
+    {
+        "caption": "a man is playing", 
+        "image_id": 1057
+    }, 
+    {
+        "caption": "a boy is riding a bicycle", 
+        "image_id": 1058
+    }, 
+    {
+        "caption": "two people are dancing", 
+        "image_id": 1059
+    }, 
+    {
+        "caption": "a dog is running", 
+        "image_id": 1060
+    }, 
+    {
+        "caption": "a baby is playing", 
+        "image_id": 1061
+    }, 
+    {
+        "caption": "a woman is dancing", 
+        "image_id": 1062
+    }, 
+    {
+        "caption": "a woman is jumping off a field", 
+        "image_id": 1063
+    }, 
+    {
+        "caption": "a man is holding a small monkey", 
+        "image_id": 1064
+    }, 
+    {
+        "caption": "a cat is playing with a cat", 
+        "image_id": 1065
+    }, 
+    {
+        "caption": "a man is putting a <unk> in a <unk>", 
+        "image_id": 1066
+    }, 
+    {
+        "caption": "a man is driving a car", 
+        "image_id": 1067
+    }, 
+    {
+        "caption": "a man is walking on a piece of a piece of wood", 
+        "image_id": 1068
+    }, 
+    {
+        "caption": "a woman is pouring a pan of liquid into a pan", 
+        "image_id": 1069
+    }, 
+    {
+        "caption": "a man is talking to a woman", 
+        "image_id": 1070
+    }, 
+    {
+        "caption": "a monkey is walking", 
+        "image_id": 1071
+    }, 
+    {
+        "caption": "a man is walking", 
+        "image_id": 1072
+    }, 
+    {
+        "caption": "a man is shooting a gun", 
+        "image_id": 1073
+    }, 
+    {
+        "caption": "a cat is playing", 
+        "image_id": 1074
+    }, 
+    {
+        "caption": "a person is cooking", 
+        "image_id": 1075
+    }, 
+    {
+        "caption": "a boy is doing a basketball", 
+        "image_id": 1076
+    }, 
+    {
+        "caption": "a little girl is playing", 
+        "image_id": 1077
+    }, 
+    {
+        "caption": "a boy is eating", 
+        "image_id": 1078
+    }, 
+    {
+        "caption": "a man is cutting a paper", 
+        "image_id": 1079
+    }, 
+    {
+        "caption": "the boys are playing", 
+        "image_id": 1080
+    }, 
+    {
+        "caption": "a man is cutting up a potato", 
+        "image_id": 1081
+    }, 
+    {
+        "caption": "a woman is mixing ingredients in a bowl", 
+        "image_id": 1082
+    }, 
+    {
+        "caption": "a man is cutting the skin of an onion", 
+        "image_id": 1083
+    }, 
+    {
+        "caption": "a man is standing", 
+        "image_id": 1084
+    }, 
+    {
+        "caption": "a man is dancing", 
+        "image_id": 1085
+    }, 
+    {
+        "caption": "a woman is making a bed", 
+        "image_id": 1086
+    }, 
+    {
+        "caption": "a man is riding a bike", 
+        "image_id": 1087
+    }, 
+    {
+        "caption": "a woman is pulling a woman", 
+        "image_id": 1088
+    }, 
+    {
+        "caption": "a woman is holding a kangaroo", 
+        "image_id": 1089
+    }, 
+    {
+        "caption": "a man is cutting a tree", 
+        "image_id": 1090
+    }, 
+    {
+        "caption": "a man is running", 
+        "image_id": 1091
+    }, 
+    {
+        "caption": "a man is riding a bicycle", 
+        "image_id": 1092
+    }, 
+    {
+        "caption": "a man is walking down a tree", 
+        "image_id": 1093
+    }, 
+    {
+        "caption": "a man is standing in the water", 
+        "image_id": 1094
+    }, 
+    {
+        "caption": "a person is cutting the something", 
+        "image_id": 1095
+    }, 
+    {
+        "caption": "a man is doing exercise", 
+        "image_id": 1096
+    }, 
+    {
+        "caption": "a man is riding a car", 
+        "image_id": 1097
+    }, 
+    {
+        "caption": "a man is running", 
+        "image_id": 1098
+    }, 
+    {
+        "caption": "a man is running", 
+        "image_id": 1099
+    }, 
+    {
+        "caption": "a man is dancing", 
+        "image_id": 1100
+    }, 
+    {
+        "caption": "a man is playing a guitar", 
+        "image_id": 1101
+    }, 
+    {
+        "caption": "a monkey is playing in the water", 
+        "image_id": 1102
+    }, 
+    {
+        "caption": "a girl is making her hair", 
+        "image_id": 1103
+    }, 
+    {
+        "caption": "a man is riding a bike", 
+        "image_id": 1104
+    }, 
+    {
+        "caption": "a dog is playing with a dog", 
+        "image_id": 1105
+    }, 
+    {
+        "caption": "a dog is trying to jump into water", 
+        "image_id": 1106
+    }, 
+    {
+        "caption": "a man is running in the air", 
+        "image_id": 1107
+    }, 
+    {
+        "caption": "a monkey is eating", 
+        "image_id": 1108
+    }, 
+    {
+        "caption": "a group of animals are playing", 
+        "image_id": 1109
+    }, 
+    {
+        "caption": "a polar bear is playing", 
+        "image_id": 1110
+    }, 
+    {
+        "caption": "a plane is flying", 
+        "image_id": 1111
+    }, 
+    {
+        "caption": "a man is driving a car", 
+        "image_id": 1112
+    }, 
+    {
+        "caption": "a woman is slicing a carrot", 
+        "image_id": 1113
+    }, 
+    {
+        "caption": "a man is playing with a cardboard box", 
+        "image_id": 1114
+    }, 
+    {
+        "caption": "a man is dancing", 
+        "image_id": 1115
+    }, 
+    {
+        "caption": "a man is riding a bike", 
+        "image_id": 1116
+    }, 
+    {
+        "caption": "a man is riding a <unk>", 
+        "image_id": 1117
+    }, 
+    {
+        "caption": "a man is playing with a dog", 
+        "image_id": 1118
+    }, 
+    {
+        "caption": "a dog is playing with a dog", 
+        "image_id": 1119
+    }, 
+    {
+        "caption": "a small animal is walking", 
+        "image_id": 1120
+    }, 
+    {
+        "caption": "a baby is playing with a baby", 
+        "image_id": 1121
+    }, 
+    {
+        "caption": "a man is slicing a carrot", 
+        "image_id": 1147
+    }, 
+    {
+        "caption": "a person is getting out of a box", 
+        "image_id": 1153
+    }, 
+    {
+        "caption": "a man is putting a pan of liquid into a pan", 
+        "image_id": 1154
+    }, 
+    {
+        "caption": "two women are dancing", 
+        "image_id": 1868
+    }, 
+    {
+        "caption": "a monkey is walking", 
+        "image_id": 1869
+    }, 
+    {
+        "caption": "a man is playing with a soccer", 
+        "image_id": 1870
+    }, 
+    {
+        "caption": "a man is giving a man with his hands", 
+        "image_id": 1871
+    }, 
+    {
+        "caption": "a man is jumping on a road", 
+        "image_id": 1872
+    }, 
+    {
+        "caption": "a boy is playing with a ball", 
+        "image_id": 1873
+    }, 
+    {
+        "caption": "a person is cutting a piece of paper", 
+        "image_id": 1874
+    }, 
+    {
+        "caption": "a person is cutting a vegetable", 
+        "image_id": 1875
+    }, 
+    {
+        "caption": "a girl is talking to the girl", 
+        "image_id": 1876
+    }, 
+    {
+        "caption": "a man is cleaning the floor", 
+        "image_id": 1877
+    }, 
+    {
+        "caption": "a woman is dancing", 
+        "image_id": 1878
+    }, 
+    {
+        "caption": "a polar bear is walking in the water", 
+        "image_id": 1881
+    }, 
+    {
+        "caption": "a man is standing on the top of a rock rock", 
+        "image_id": 1882
+    }, 
+    {
+        "caption": "a cat is playing with a <unk>", 
+        "image_id": 1883
+    }, 
+    {
+        "caption": "a man is riding a bike", 
+        "image_id": 1884
+    }, 
+    {
+        "caption": "a boy is riding a boat", 
+        "image_id": 1885
+    }, 
+    {
+        "caption": "a man is playing a basketball", 
+        "image_id": 1886
+    }, 
+    {
+        "caption": "a young man is playing with a stick", 
+        "image_id": 1887
+    }, 
+    {
+        "caption": "a man is playing a guitar", 
+        "image_id": 1888
+    }, 
+    {
+        "caption": "a woman is slicing a potato", 
+        "image_id": 1889
+    }, 
+    {
+        "caption": "a woman is preparing food", 
+        "image_id": 1890
+    }, 
+    {
+        "caption": "a boy is doing the something", 
+        "image_id": 1891
+    }, 
+    {
+        "caption": "a man is doing a wheelie", 
+        "image_id": 1892
+    }, 
+    {
+        "caption": "a man is doing a woman", 
+        "image_id": 1893
+    }, 
+    {
+        "caption": "a man is dancing", 
+        "image_id": 1894
+    }, 
+    {
+        "caption": "a man is riding on the ground", 
+        "image_id": 1895
+    }, 
+    {
+        "caption": "a man is dancing", 
+        "image_id": 1896
+    }, 
+    {
+        "caption": "a man is doing the something", 
+        "image_id": 1897
+    }, 
+    {
+        "caption": "a man is walking", 
+        "image_id": 1898
+    }, 
+    {
+        "caption": "a man is walking in the woods", 
+        "image_id": 1899
+    }, 
+    {
+        "caption": "a man is <unk> a <unk> <unk> <unk> <unk> <unk> <unk>", 
+        "image_id": 1900
+    }, 
+    {
+        "caption": "a man is standing in the mud", 
+        "image_id": 1901
+    }, 
+    {
+        "caption": "a man is walking", 
+        "image_id": 1902
+    }, 
+    {
+        "caption": "a man is talking to a <unk>", 
+        "image_id": 1903
+    }, 
+    {
+        "caption": "a man is running", 
+        "image_id": 1904
+    }, 
+    {
+        "caption": "a man is doing some sort of a man in a mud", 
+        "image_id": 1905
+    }, 
+    {
+        "caption": "a man is playing", 
+        "image_id": 1906
+    }, 
+    {
+        "caption": "a woman is slicing a piece of onion", 
+        "image_id": 1907
+    }, 
+    {
+        "caption": "a cat is playing", 
+        "image_id": 1908
+    }, 
+    {
+        "caption": "a man is cutting a piece of bread", 
+        "image_id": 1909
+    }, 
+    {
+        "caption": "a cat is playing", 
+        "image_id": 1910
+    }, 
+    {
+        "caption": "a woman is spreading flour on a piece of flour", 
+        "image_id": 1911
+    }, 
+    {
+        "caption": "a small dog is playing with a ball", 
+        "image_id": 1912
+    }, 
+    {
+        "caption": "a woman is riding a horse", 
+        "image_id": 1913
+    }, 
+    {
+        "caption": "a dog is playing with a dog", 
+        "image_id": 1914
+    }, 
+    {
+        "caption": "a man is driving a motorcycle", 
+        "image_id": 1915
+    }, 
+    {
+        "caption": "a woman is <unk>", 
+        "image_id": 1916
+    }, 
+    {
+        "caption": "a woman is riding a horse", 
+        "image_id": 1917
+    }, 
+    {
+        "caption": "a dog is playing with a small dog", 
+        "image_id": 1918
+    }, 
+    {
+        "caption": "a dog is playing in a park", 
+        "image_id": 1919
+    }, 
+    {
+        "caption": "a boy is driving a car", 
+        "image_id": 1920
+    }, 
+    {
+        "caption": "a man is playing", 
+        "image_id": 1921
+    }, 
+    {
+        "caption": "a dog is talking to the <unk>", 
+        "image_id": 1922
+    }, 
+    {
+        "caption": "a man is talking", 
+        "image_id": 1923
+    }, 
+    {
+        "caption": "two pandas are playing", 
+        "image_id": 1924
+    }, 
+    {
+        "caption": "a man is playing", 
+        "image_id": 1925
+    }, 
+    {
+        "caption": "a man is holding a woman", 
+        "image_id": 1926
+    }, 
+    {
+        "caption": "a man is making a large container of a large dish", 
+        "image_id": 1927
+    }, 
+    {
+        "caption": "a person is slicing a carrot", 
+        "image_id": 1928
+    }, 
+    {
+        "caption": "a man is slicing a vegetable", 
+        "image_id": 1929
+    }, 
+    {
+        "caption": "a man is cutting the something", 
+        "image_id": 1930
+    }, 
+    {
+        "caption": "a dog is playing with a dog", 
+        "image_id": 1931
+    }, 
+    {
+        "caption": "a <unk> is <unk> <unk> <unk>", 
+        "image_id": 1932
+    }, 
+    {
+        "caption": "a man is playing a flute", 
+        "image_id": 1933
+    }, 
+    {
+        "caption": "a soccer player is kicking a ball", 
+        "image_id": 1934
+    }, 
+    {
+        "caption": "a man is cutting a piece of paper", 
+        "image_id": 1935
+    }, 
+    {
+        "caption": "the boys are dancing", 
+        "image_id": 1936
+    }, 
+    {
+        "caption": "a dog is playing with a toy", 
+        "image_id": 1937
+    }, 
+    {
+        "caption": "a man is <unk> a <unk>", 
+        "image_id": 1938
+    }, 
+    {
+        "caption": "a man is playing the piano", 
+        "image_id": 1939
+    }, 
+    {
+        "caption": "a man is shooting a gun", 
+        "image_id": 1940
+    }, 
+    {
+        "caption": "a man is cutting a piece of butter", 
+        "image_id": 1941
+    }, 
+    {
+        "caption": "a man is cutting a tomato", 
+        "image_id": 1942
+    }, 
+    {
+        "caption": "a woman is slicing a vegetable", 
+        "image_id": 1943
+    }, 
+    {
+        "caption": "the little boys are playing in the pool", 
+        "image_id": 1944
+    }, 
+    {
+        "caption": "a man is flying", 
+        "image_id": 1945
+    }, 
+    {
+        "caption": "a man is running", 
+        "image_id": 1946
+    }, 
+    {
+        "caption": "a man is pushing a car", 
+        "image_id": 1947
+    }, 
+    {
+        "caption": "a plane is flying", 
+        "image_id": 1948
+    }, 
+    {
+        "caption": "a woman is riding a horse", 
+        "image_id": 1949
+    }, 
+    {
+        "caption": "a woman is riding a horse", 
+        "image_id": 1950
+    }, 
+    {
+        "caption": "a man is putting a bowl of water into a bowl", 
+        "image_id": 1951
+    }, 
+    {
+        "caption": "a woman is sitting on a couch", 
+        "image_id": 1952
+    }, 
+    {
+        "caption": "a woman is having a <unk>", 
+        "image_id": 1953
+    }, 
+    {
+        "caption": "a man is talking to a woman", 
+        "image_id": 1954
+    }, 
+    {
+        "caption": "a man is pushing a car", 
+        "image_id": 1955
+    }, 
+    {
+        "caption": "a monkey is sitting on a stage", 
+        "image_id": 1956
+    }, 
+    {
+        "caption": "a dog is running", 
+        "image_id": 1957
+    }, 
+    {
+        "caption": "a man is writing a <unk>", 
+        "image_id": 1958
+    }, 
+    {
+        "caption": "some people are dancing", 
+        "image_id": 1959
+    }, 
+    {
+        "caption": "an <unk> is <unk>", 
+        "image_id": 1960
+    }, 
+    {
+        "caption": "a panda is eating", 
+        "image_id": 1961
+    }, 
+    {
+        "caption": "a man is playing football", 
+        "image_id": 1962
+    }, 
+    {
+        "caption": "a woman is taking a pan", 
+        "image_id": 1963
+    }, 
+    {
+        "caption": "a cat is playing with a cat", 
+        "image_id": 1964
+    }, 
+    {
+        "caption": "a woman is falling off a rock", 
+        "image_id": 1965
+    }, 
+    {
+        "caption": "a man is driving a car", 
+        "image_id": 1966
+    }, 
+    {
+        "caption": "a man is pushing a <unk> of a <unk>", 
+        "image_id": 1967
+    }, 
+    {
+        "caption": "a man is riding a bike", 
+        "image_id": 1968
+    }, 
+    {
+        "caption": "a man is giving a boat", 
+        "image_id": 1969
+    }
+]

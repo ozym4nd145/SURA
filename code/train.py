@@ -24,6 +24,8 @@ tf.flags.DEFINE_integer("num_epochs", 10,
                        "Number of epochs to train the model.")
 tf.flags.DEFINE_string("checkpoint_model", None,
                        "Model Checkpoint to use.")
+tf.flags.DEFINE_string("inception_checkpoint", None,
+                       "Inception Checkpoint to use")
 tf.flags.DEFINE_integer("summary_freq", 100,
                        "Frequency of writing summary to tensorboard.")
 tf.flags.DEFINE_integer("save_freq", None,
@@ -72,8 +74,11 @@ def main(unused_argv):
             print("Restoring weights from %s" %model_path)
             saver.restore(sess,model_path)
         else:
-            print("No checkpoint found. Intializing Variables from scratch")
+            print("No checkpoint found. Intializing Variables from scratch and restoring from inception checkpoint")
+            assert FLAGS.inception_checkpoint, "--Inception checkpoint must be given"
             sess.run(tf.global_variables_initializer())
+            saver2 = tf.train.Saver(model.inception_variables)
+            saver2.restore(sess,FLAGS.inception_checkpoint)
         
         data_gen.init_batch(int(FLAGS.batch_size),"train")
 
