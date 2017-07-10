@@ -1,0 +1,31 @@
+## Training
+python3 train.py 20 --save_freq 500
+
+## Validation
+export CUDA_VISIBLE_DEVICES=""
+python3 evaluate.py --eval_all_models
+
+## Tensorboard
+tensorboard --port 6007 --logdir="./models"
+
+## Generate Batch results
+python3 generate_batch_result.py
+
+## Generate Evalutaion results
+python eval.py --eval_all
+
+## Generate Video subtitles
+for video in $(ls ../../dataset/test_videos/*.webm)
+do
+python3 test_videos.py ../../dataset/test_videos/$video ./models/train/model-13716 ../../dataset/inception_v4.ckpt --num_fps 4 --len_clip 4 --cap_len 30 --beam_size 4
+done
+
+## Notes
+1. Separated Encoding and Decoding stage in training.
+2. Added dropout wrapper in RNN. Increasing dropout
+3. Added video mask and caption mask use for sequence length in dynamic rnn.
+4. With working beam search
+5. Batchnorm layer added
+6. Inception model removed from training graph
+7. Using multi (3) Layer LSTM 
+

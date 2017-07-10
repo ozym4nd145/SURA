@@ -1,0 +1,109 @@
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
+
+import numpy as np
+
+class Inference(object):
+    def __init__ (self,model,word_to_idx,idx_to_word):
+        self.model=model
+        self.word_to_idx = word_to_idx
+        self.idx_to_word = idx_to_word
+    def feed_video(self, sess, encoded_video):
+        initial_state_1,initial_state_2 = sess.run([self.model.infer_hidden_state_1,
+                                                    self.model.infer_hidden_state_2,],
+                                                    feed_dict = {self.model.rnn_input: encoded_video})
+        return [initial_state_1,initial_state_2]
+    def inference_step(self,sess,input_feed,state_feed):
+        feed_dict = {}
+        feed_dict[self.model.state_feed_1] = state_feed[0]
+        feed_dict[self.model.state_feed_2] = state_feed[1]
+        feed_dict[self.model.word_input] = input_feed
+        
+        preds,next_state_1,next_state_2 = sess.run(
+                                    [self.model.infer_predictions,
+                                     self.model.infer_last_state_l1,
+                                     self.model.infer_last_state_l2],
+                                     feed_dict=feed_dict)
+        return preds,[next_state_1,next_state_2]
+    def generate_caption_batch(self,sess,video_batch,max_len=20):
+        input_batch = np.array([[self.word_to_idx["<bos>"]]]*video_batch.shape[0])
+        state = self.feed_video(sess,video_batch)
+        eos_batch = np.array([[self.word_to_idx["<eos>"]]]*video_batch.shape[0])
+        finished_batch = np.array([[False]]*video_batch.shape[0])
+        caption_generated = ["" for i in range(video_batch.shape[0])]
+        loss = [0.0 for d in range(video_batch.shape[0])] 
+        for i in range(max_len):
+            pred,state = self.inference_step(sess,input_batch,state)
+            input_batch = np.argmax(pred,axis=2)
+            pred_values = np.max(pred,axis=2)
+            loss -= np.log(pred_values)
+            finished_batch = np.logical_or(input_batch==eos_batch,finished_batch)
+            is_end = np.all(finished_batch)
+            pred = np.squeeze(pred)
+            if is_end:
+                break
+            for i,p in enumerate(pred):
+                if not finished_batch[i]:
+                    caption_generated[i] += " "+self.idx_to_word[np.argmax(p)]
+        return [(l[0]/(len(i[1:].split(" ")) + 1),i[1:]) for l,i in zip(loss,caption_generated)]
+    def generate_caption_batch_beam(self, beam_size, sess,video_batch,max_len=20):
+        input_batch = np.array([[self.word_to_idx["<bos>"]]]*video_batch.shape[0])
+        state = self.feed_video(sess,video_batch)
+        # eos_batch = np.array([[self.word_to_idx["<eos>"]]]*video_batch.shape[0])
+      #  finished_batch = np.array([[False]]*video_batch.shape[0])
+        #caption_generated = ["" for i in range(video_batch.shape[0])]
+        
+        batch_of_beams = []
+        for i in range(video_batch.shape[0]):
+            beam = [] # {st: , current_cap: , loss: , prev_word:}
+            #for j in range(beam_size):
+            beam.append({"st":[state[k][i] for k in range(len(state))],
+                             "current_cap":"" ,
+                             "loss":0,
+                             "prev_word":self.word_to_idx["<bos>"] })
+            batch_of_beams.append(beam)
+
+        completed_captions = [[] for d in range(video_batch.shape[0])] 
+        for i in range(max_len):
+            beam_squared_list = [[] for d in range(video_batch.shape[0])] 
+            for vv in range(len(batch_of_beams[0])):
+                input_batch = [[video[vv]["prev_word"]] for video in batch_of_beams]
+                state = np.array([video[vv]["st"] for video in batch_of_beams]) #batchsize * 2 * 2000
+                pred,state = self.inference_step(sess,input_batch,state.swapaxes(0,1))
+                pred = np.squeeze(pred)
+                for j in range(len(beam_squared_list)):
+                    #print("-------- Vid ------",j, " Current cap ", batch_of_beams[j][vv]["current_cap"] )
+                    for pred_word in pred[j].argsort()[-beam_size:][::-1]:
+                        #print(pred_word, " Pred Word-- ", self.idx_to_word[pred_word])
+                        new_loss = batch_of_beams[j][vv]["loss"] - np.log(pred[j][pred_word])
+                        if (pred_word == self.word_to_idx["<eos>"]) : 
+                            completed_captions[j].append(( new_loss / (i+1) , # did  +1 avoiding divide by 0
+                                                          batch_of_beams[j][vv]["current_cap"]))
+                        else:
+                            beam_squared_list[j].append({"st":[state[k][j] for k in range(len(state))] ,
+                                                         "current_cap":batch_of_beams[j][vv]["current_cap"] + 
+                                                            " " + self.idx_to_word[pred_word],
+                                                         "loss":new_loss,
+                                                         "prev_word":pred_word })
+                        
+            for j in range(len(beam_squared_list)):
+                beam_squared_list[j].sort(key = lambda x: x["loss"])
+                batch_of_beams[j] = beam_squared_list[j][:beam_size].copy() ###### Trying
+        for j in range(len(beam_squared_list)):
+            completed_captions[j] += ([ ( t["loss"] / (max_len+1) ,  t["current_cap"] )   for t in beam_squared_list[j]])
+            completed_captions[j].sort(key = lambda x: x[0])                                                                
+        retList = []
+        for t in completed_captions:
+            to_append = []
+            for tup in t[:beam_size]:
+                to_append.append((tup[0],tup[1].strip()))
+            retList.append(to_append)
+
+        return retList  # List of batch size lists of beam size tuples with loss and caption
+        
+        #return [i[0][1][1:] for i in completed_captions]
+
+        #return [i[0][1][1:] for i in completed_captions]
+        #return [i[:] for i in completed_captions]
+    

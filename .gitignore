@@ -103,8 +103,18 @@ code/virtual_env
 dataset/
 
 #models
-code/s2vt_models
-code/madhur_model
+models/
+
+#new models
+new_models/
+
+#coco_eval
+coco_eval/
+
+#Previous
+Previous/
+temp/
+test/
 
 #pickle files
 *.pkl
