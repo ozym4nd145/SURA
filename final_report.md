@@ -11,6 +11,8 @@ less than 250 words
 
 ## Past Work ??
 
+## Data ??
+
 ## Main Content
 
 ### Overall Approach
@@ -26,12 +28,13 @@ less than 250 words
 // networks, audio encoding
 
 ### Decoder Network 
-#### Training Phase
+
+### Training Phase
 // Basic about the training process and loss comparison
 // Some text about various approaches used
 // some bits about beam search and all
 
-#### Inference Phase 
+### Inference Phase 
 // Basic about inference process.
 
 ### Other experiments
