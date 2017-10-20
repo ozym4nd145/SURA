@@ -13,6 +13,31 @@ less than 250 words
 
 ## Main Content
 
+### Overall Approach
+// High level introduction of our approach
+
+### Video Encoding Method
+// about the use of cnn to extract video features and converting to
+// an array of features
+
+### Video Encoder
+// About the encoding layer lstm for video
+// Some bit about the other methods used like multiple layers, residual
+// networks, audio encoding
+
+### Decoder Network 
+#### Training Phase
+// Basic about the training process and loss comparison
+// Some text about various approaches used
+// some bits about beam search and all
+
+#### Inference Phase 
+// Basic about inference process.
+
+### Other experiments
+// about various experiments that we did
+
+
 Technical sections: The main body of the report may be divided into multiple sections as the case may be. You may have different sections which delve into different aspects of the problem. The organization of the report here is problem specific. You may also have a separate section for statement of design methodology, or experimental methodology, or proving some lemmas in a theoretical paper.
 
 The technical section is the most work-specific, and hence is the least described here. However, it makes sense to mention the following main points:
