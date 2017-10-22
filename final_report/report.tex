@@ -89,8 +89,11 @@ The data used is a crucial factor in the effectiveness of a complex neural netwo
 \section{Methods}
 \subsection{Overall Approach}
 	Our approach to video description was motivated by the recent successful approach of using Encoder-Decoder system in Image Description.
-	Our pipeline consisted of a CNN layer that extracted feateures from the video, then one LSTM network which encoded these features and finally
-	another LSTM network for decoding into natural language description.
+	Our pipeline consisted of a CNN network that extracted feateures from the individual video frames, one LSTM network which encoded these features into a fixed length feature vector and another LSTM network which decoded the feature vector into a natural language description.
+
+\subsection{Word Embeddings}
+To generate sentences we need a vocabulary, we use a vocabulary which consists of about 13000 words as well as punctuation marks. We also add two special tokens <Start> and <End> to the vocabulary to represent the beggining and end of a sentence. Since a simple one-hot representation of a word is very sparse and unstructured, we use a fully connected layer (called the ``embedding layer'' to convert a word to a dense vector space. We experimented with different embedding methods, including random initialization of a trainable embedding layer and using pretrained GloVe or Word2Vec embeddings. Empirically we found out that using pretrained embeddings gives almost identical results to randomly initializing the embedding layer and training it within our pipeline.\\
+At the output stage we need another matrix to decode the outputs to words and we used another fully connected layer which gives an output of length vocabulary size with each element representing the probability of that word being generated. Note that while it may seem reasonable to use the same weights in the embedding and decoding layers as first sight, such an approach gives poor results in our experiments since the vector space of embedding outputs and the vector space of decoding inputs are different and unrelated to each other.
 
 \subsection{Video Feature Extraction}
 
@@ -105,8 +108,7 @@ The data used is a crucial factor in the effectiveness of a complex neural netwo
 	to our network which would have made this un-usable in the case of video surveillance and other areas where audio is not available.
 	
 \subsection{Video Feature Encoding}
-	We used a LSTM based network for encoding features of video frame into a single feature vector. This approach is largely inspired by recent
-	breakthrough of similar approach in machine translation which also used LSTMs for encoding decoding language token. Here we used the feature
+	We used a LSTM based network for encoding feature vectors of individual video frames into a single feature vector for the whole clip. This approach is largely inspired by similar approach in machine translation which also use LSTMs for encoding decoding between languages. Here we used the feature
 	vector of video frames as inputs to LSTM units and the final hidden state of the LSTM network as the video encoding.\\ 
 	We experimented with various types of encoding networks like:
 	\begin{itemize}
@@ -117,65 +119,25 @@ The data used is a crucial factor in the effectiveness of a complex neural netwo
 	\end{itemize}
 	Apart from the above, we also experimented with dropout in between layers and also experimented with audio features concatenated with
 	video features.
+\subsection{Decoding to Natural Language}
+The previous stage gives us a fixed length feature vector which represents the whole video clip. We use this feature vector as the initial hidden state of our decoder LSTM network. After this we feed words (embedded in a vector space as described above) one by one into the LSTM, which gives the next word. There is a special <Start> token which represents the beginning of a sentence and is always the first one to be given as input. The ouput word is deduced from the output of the LSTM network using a fully connected layer with softmax activation, which results in a vector of length equal to the size of our vocabulary and where each element can be interpreted as the probability of that word coming next in the sentence.\\
+Initially we used a greedy approach to sentence formation by taking the word with maximum probability at the output of  each step, adding it to our sentence and feeding it as input in the next step. This approach often resulted in convoluted and inaccurate sentences, since some degree of look-ahead is needed for proper sentence structure. Finally we used \textbf{Beam Search Decoder} to provide us with a  certain amount of look-ahead, and observed our sentences and results both improve dramatically. A Beam Search is a compromise between the totally greedy approach which can be short-sighted and the breadth-first search approach which is not computationally tractable. Instead of choosing the best setence at the end of each step, here we keep a  `beam' of sentences (three sentences in the beam were used in practice). At each step, for each sentence in the beam we consider the top three predictions for the next word and make nine sentences out of those, then we filter down from these nine sentences to three sentences on the basis of the combined probability for the original sentence and the added word.
 
-\section{Approach to the project}
-		The basic approach is to train our model using videos that already have a description, so that our networks ``learns'' to describe videos.\\
-		In order to achieve this we have broken down our problem in several parts. First, we will be implementing image captioning in order to be able to encode individual video frames in fixed-length vector representation.
-		Then, we will be using our constructed image captioning network's CNN (image encoder) to encode video frames sampled at a fixed interval.
-		We will then use Recurrent Neural Networks to translate this representation of video into natural language domain. This translation will be achieved by using a set of encoder and decoder RNNs. Since we are working with variable length input and output, we will specifically be using LSTMs (Long Short Term Memory Networks) for encoding and decoding purposes, as they have been proven to be excellent in machine translation and generalize very well on long data input.
-		\begin{enumerate}
-			\item Image Captioning
-			\begin{enumerate}
-				\item
-					Construct a convolutional neural network (VGG/Inception V3) with pre-trained weights for object classification.
-				\item
-					Make an RNN (LSTM) network\cite{showandtell} that takes a encoded image (using CNN) as input and then translates the image representation into natural language text.
-				\item
-					Train the model on datasets like MS COCO which consists of large number of captioned images.
-			\end{enumerate}
-			\item Video Representation
-			\begin{enumerate}
-				\item
-					We will first sample video at a fixed rate and convert each individual frame to a fixed length vector representation using the network trained in image captioning part.
-				\item
-					We will then try out different approaches of video representation like:
-					\begin{itemize}
-						\item
-							Mean Pooling over all video frame encodings obtained to get a fixed vector representation of video\cite{proposal}.
-						\item
-							Using RNNs to encode this variable length video representation\cite{s2vt}.
-						\item
-							Using 3D CNNs to directly encode videos and use simple RNNs for description generation\cite{temporal}.
-					\end{itemize}					
-			\end{enumerate}
-			\item Natural Language Conversion
-			\begin{enumerate}
-				\item
-					Based on how we choose to encode our video, we will have to select appropriate architecture of LSTM to be used to decode the representation
+\subsection{Training Phase}
+
+
+\subsection{Inference Phase}
+
+\subsection{Dealing with Overfitting}
+
+
 				\begin{figure}[ht!]
 				\centering
 					\includegraphics[width=10cm]{s2vt.png}
 					\caption{Video description model with 2 LSTM levels\label{fig1}}
 				\end{figure}
 
-				\item
-					One popular choice\cite{s2vt}(Figure~\ref{fig1}) that we will try out first will be to use a two level LSTM model that will do a sequence to sequence mapping from variable length video representation to variable length natural language sentence.
-				\item
-					Then we will train our model on the training data we have obtained and plot the learning curves.
-				\item
-					We will also have to check for over-fitting and under-fitting during our training process and finetune our hyper parameters according to it.
-			\end{enumerate}
-			\item Further Possibilities
-			\begin{enumerate}
-				\item We will look for techniques of data augmentation and transfer learning\cite{proposal} to compensate for the limited amount of training data for video description.
-				\item We will also look into some recent techniques of using optical flow for attention modelling\cite{s2vt} which has shown in some cases to improve the results of action recognition.
-				\item We will also consider using more efficient vocabulary representation as compared to one hot encoding because vocabulary in this case would be very large.
-				\item Try to make forward propagation fast and more memory efficient.
-				\item We will also try to develop an end user application that will speak out description of a video that a person records.
-				\item A future extension of this project is to design a system which can answer questions based upon a video, similar to \cite{visualqa}.
-			\end{enumerate}
-		\end{enumerate}
-
+			
 	
 
 	\section{Uses and applications}
