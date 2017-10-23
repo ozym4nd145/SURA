@@ -142,7 +142,19 @@ $S$ = Correct caption of video $V$. It is a sequence of words $(S_0,S_1,\ldots,S
 $L(V,S)$ = Loss corresponding to video caption pair (V,S)\\
 $p_t(S_t)$ = Probability of word $S_t$ in the output of LSTM unit at time $t$.\\\\
 The above loss is minimized w.r.t. all the parameters of the Encoder LSTM unit, Decoder LSTM unit,
-the top layer of the image embedder CNN and word embeddings.
+the top layer of the image embedder CNN and word embeddings.\\
+The parameters we used for our training are as follows:\\\\
+Number of frames per video = 100\\
+Image dimensions for input = 299 x 299\\
+Maximum caption length = 20\\
+CNN last layer dimension = 1x1536\\
+Image embedding size = 2000\\
+Word embedding size = 1000\\
+Hidden LSTM size = 1000\\
+Number of LSTM layer = 2\\
+Adam learning rate = $10^{-4}$\\
+Initialzation of weights = Random in range $(-0.1,0.1)$\\
+Dropout between LSTM layers = $0.5$\\
 
 \subsection{Inference Phase}
 We used multiple approaches for inference phase for generating a sentence given a video.
@@ -210,7 +222,8 @@ We also did some manual testing by feeding random youtube videos and found that 
 	found mixed results. We further found that the results strongly depended on the amount of training data available and
 	that as the size of the available datasets for video description increases, so will the performance of this model.
 	Furthermore, it will be interesting to use this model in areas like automated video surveillance once the dataset
-	for the same become publicly available.
+	for the same become publicly available.\\
+	\textit{Our code for this project can be found at: https://github.com/ozym4nd145/SURA}
 
 	\section{Uses and applications}
 			\begin{itemize}
