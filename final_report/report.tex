@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+\documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{titlepic}
@@ -146,6 +146,14 @@ To deal with overfitting we experimented a lot and found the following approache
 With all these implemented, ovefitting was a much smaller problem then before and our training loss was mostly near our validation loss.
 \subsection{Other experiments}
 
+We tried a lot of different approaches to improve the model, some of the promising ones are the following.
+\begin{enumerate}
+
+\item \textbf{Attention Mechanism: } In any video clip it can be observed that not all frames are equally important with respect to the goal of generating a description. The earlier approach weighs all frames equally since everyone has a chance of modifying the hidden state of the encoder LSTM equally. An attention mechanism allows us to weigh some frames of the video more than others and to learn how to generate the weights from the video itself. We didn't observe extensive improvement in the datset results with this modification. One reason could be that our datasets only consisted of short video clips and was already downsampled wrt time and thus applying attention may have lowered weightage of some important frames.
+\item \textbf{Audio Features: } In the encoding process, instead of just taking feature vectors derived from video frames we also tried to concatenate feature vectors obtained from the audio near that particular frame. For this purpose we used MFFCs (Mel-frequency cepstral coefficients) which is a representation of the short-term power spectrum of a sound, based on a linear cosine transform of a log power spectrum. Here too we observed not much improvement in the results, even when we weighed the audio features equal to the video features. This indicates that even though the audio features are helping with learning but the information contained in the two is complimentary ie one can be substituted for the other. Knowing this and the fact that audio feeds are rare in many potential applications we decided to remove this feature from the final project.
+\item \textbf{Changing Loss Function: } The loss function we use is a tad simplistic since it depends a lot on word positioning. So for example if the desired output is "A man catches a ball" and the network outputs "A ball is caught by a man" our loss function will give a very high loss even though the two sentences seem to be same. To improve this we thought of using n-grams to compare sentences like in the BLEU algorithm. Unfortunately even a simple implementation of this was not able to run well using the GPU and thus was basically useless since it would stretch our training time from 10 hours to a week at least.
+
+\end{enumerate}
 
 				\begin{figure}[ht!]
 				\centering
