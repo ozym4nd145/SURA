@@ -31,11 +31,11 @@
 	\textbf{Madhur Singhal}\\ 
 	2015CS10235\\
 	Computer Science\\
-	CGPA: 8.66\\
+	CGPA: 8.69\\
 	Mob: 9540972599\\
 	cs1150235@iitd.ac.in
 }
-\date{\textbf{Supervisor:-} \\ \textbf{Subhashis Banerjee} \\ Professor \\ Department of CSE \\ suban@cse.iitd.ac.in\\ IIT Delhi\\
+\date{\textbf{Supervisor:} \\ \textbf{Subhashis Banerjee} \\ Professor \\ Department of CSE \\ suban@cse.iitd.ac.in\\ IIT Delhi\\
 \vspace*{\fill}}
 
 
@@ -58,7 +58,7 @@
 	\newpage
 
 	\section{Introduction}
-		\textit{\textbf{Video Description}} is the process of discovering knowledge, structures, patterns and events of interest in video data and generating a description of them in natural human language. Video Description is an open problem in computer vision and currently the predominant source of video description is manual human work. 
+		\textit{Video Description} is the process of discovering knowledge, structures, patterns and events of interest in video data and generating a description of them in natural human language. Video Description is an open problem in computer vision and currently the predominant source of video description is manual human work. 
 		\newline
 		Video Description has wide variety of applications. It can help visually impaired people ``see'' the world by describing the scene around them. It has also use in automated surveillance by analyzing the videos in real time and reporting malicious or unusual activities. It can also be used to efficiently index large video databases based upon their content for ease of accessibility.
 
@@ -67,7 +67,7 @@
 		\includegraphics[width=1.0\textwidth]{description.png}
 		\caption{Sample Video Description\label{fig0}}
 		\end{figure}		
-In this project we created an end to end Neural Network pipeline which generates an english sentence from a given input video clip. This pipeline is inspired by the recent success of Convolutional Neural Networks in image analysis and that of Sequence to Sequence Recurrent Neural Networks in Machine Translation. Our network can be thought of as translating between a video clip and an english sentence, wherein individual frames of the video are ``words'' in the video language. Since our network is end to end we have a combined loss function for the whole network based on the sentence returned by the network and the desired sentence. Finally we use an Adam Optimizer and backpropagation through the network to optimize the weights. In practice the Convolutional Neural Networks are too big to be trained using the limited video clip datasets we have and thus we use a CNN that has already been trained on the separate task of image classification for which there is a huge dataset called ImageNet.
+In this project we created an end to end Neural Network pipeline which generates an english sentence from a given input video clip. This pipeline is inspired by the recent success of Convolutional Neural Networks\cite{cs231n} in image analysis and that of Sequence to Sequence Recurrent Neural Networks in Machine Translation\cite{gnmt}. Our network can be thought of as translating between a video clip and an english sentence, wherein individual frames of the video are ``words'' in the video language. Since our network is end to end we have a combined loss function for the whole network based on the sentence returned by the network and the desired sentence. Finally we use an Adam Optimizer and backpropagation through the network to optimize the weights. In practice the Convolutional Neural Networks are too big to be trained using the limited video clip datasets we have and thus we use a CNN that has already been trained on the separate task of image classification for which there is a huge dataset called ImageNet.
 
 	\section{Past Work}
 
@@ -77,7 +77,7 @@ In this project we created an end to end Neural Network pipeline which generates
 The data used is a crucial factor in the effectiveness of a complex neural network like ours. We primarily used the following two datasets for training and validation purposes.
 	\begin{enumerate}
 		\item
-			\textbf{Microsoft Research - Video to Text (MSR-VTT)}: The dataset contains 41.2 hours and 200K clip-sentence pairs in total, covering the most comprehensive categories and diverse visual content, and representing the largest dataset in terms of sentence and vocabulary.
+			\textbf{Microsoft Research - Video to Text (MSR-VTT)} \cite{msrvtt}: The dataset contains 41.2 hours and 200K clip-sentence pairs in total, covering the most comprehensive categories and diverse visual content, and representing the largest dataset in terms of sentence and vocabulary.
 		\item
 			\textbf{Montreal Video Annotation Dataset (M-VAD)}: The M-VAD movie description corpus is another recent collection of about 49,000 short video clips from 92 movies. It is similar to MPII-MD, but only contains AD data and only provides automatic alignment.
 		\end{enumerate}
@@ -87,12 +87,12 @@ The data used is a crucial factor in the effectiveness of a complex neural netwo
 \section{Methods}
 \subsection{Overall Approach}
 	Our approach to video description was motivated by the recent successful approach of using Encoder-Decoder system in Image Description.
-	Our pipeline consisted of a CNN network that extracted features from the individual video frames, one LSTM network which encoded these features into a fixed length feature vector and another LSTM network which decoded the feature vector into a natural language description.
+	Our pipeline consisted of a CNN network that extracted features from the individual video frames, one LSTM network which encoded these features into a fixed length feature vector\cite{temporal} and another LSTM network which decoded the feature vector into a natural language description.
 
 
 				
 \subsection{Word Embeddings}
-To generate sentences we need a vocabulary, we use a vocabulary which consists of about 13000 words as well as punctuation marks. We also add two special tokens $\langle$Start$\rangle$ and $\langle$End$\rangle$ to the vocabulary to represent the beginning and end of a sentence. Since a simple one-hot representation of a word is very sparse and unstructured, we use a fully connected layer (called the ``embedding layer'' to convert a word to a dense vector space. We experimented with different embedding methods, including random initialization of a trainable embedding layer and using pretrained GloVe or Word2Vec embeddings. Empirically we found out that using pretrained embeddings gives almost identical results to randomly initializing the embedding layer and training it within our pipeline.\\
+To generate sentences we need a vocabulary, we use a vocabulary which consists of about 13000 words as well as punctuation marks. We also add two special tokens $\langle$Start$\rangle$ and $\langle$End$\rangle$ to the vocabulary to represent the beginning and end of a sentence. Since a simple one-hot representation of a word is very sparse and unstructured, we use a fully connected layer (called the ``embedding layer'' to convert a word to a dense vector space. We experimented with different embedding methods, including random initialization of a trainable embedding layer and using pretrained GloVe\cite{glove} embeddings. Empirically we found out that using pretrained embeddings gives almost identical results to randomly initializing the embedding layer and training it within our pipeline.\\
 At the output stage we need another matrix to decode the outputs to words and we used another fully connected layer which gives an output of length vocabulary size with each element representing the probability of that word being generated. Note that while it may seem reasonable to use the same weights in the embedding and decoding layers as first sight, such an approach gives poor results in our experiments since the vector space of embedding outputs and the vector space of decoding inputs are different and unrelated to each other.
 
 \subsection{Video Feature Extraction}
@@ -114,14 +114,14 @@ At the output stage we need another matrix to decode the outputs to words and we
 	\begin{itemize}
 		\item Single layer LSTM network
 		\item Multi layered LSTM network (2-5 layers)
-		\item Residual Network Multi Layered LSTM network
-		\item Encoder network with Attention Model
+		\item Residual multi Layered LSTM network
+		\item Encoder network with attention model
 	\end{itemize}
 	Apart from the above, we also experimented with dropout in between layers and also experimented with audio features concatenated with
 	video features.
 \subsection{Decoding to Natural Language}
 The previous stage gives us a fixed length feature vector which represents the whole video clip. We use this feature vector as the initial hidden state of our decoder LSTM network. After this we feed words (embedded in a vector space as described above) one by one into the LSTM, which gives the next word. There is a special $\langle$Start$\rangle$ token which represents the beginning of a sentence and is always the first one to be given as input. The output word is deduced from the output of the LSTM network using a fully connected layer with softmax activation, which results in a vector of length equal to the size of our vocabulary and where each element can be interpreted as the probability of that word coming next in the sentence.\\
-Initially we used a greedy approach to sentence formation by taking the word with maximum probability at the output of  each step, adding it to our sentence and feeding it as input in the next step. This approach often resulted in convoluted and inaccurate sentences, since some degree of look-ahead is needed for proper sentence structure. Finally we used \textbf{Beam Search Decoder} to provide us with a  certain amount of look-ahead, and observed our sentences and results both improve dramatically. A Beam Search is a compromise between the totally greedy approach which can be short-sighted and the breadth-first search approach which is not computationally tractable. Instead of choosing the best sentence at the end of each step, here we keep a  `beam' of sentences (three sentences in the beam were used in practice). At each step, for each sentence in the beam we consider the top three predictions for the next word and make nine sentences out of those, then we filter down from these nine sentences to three sentences on the basis of the combined probability for the original sentence and the added word.
+Initially we used a greedy approach to sentence formation by taking the word with maximum probability at the output of  each step, adding it to our sentence and feeding it as input in the next step. This approach often resulted in convoluted and inaccurate sentences, since some degree of look-ahead is needed for proper sentence structure. Finally we used Beam Search Decoder to provide us with a  certain amount of look-ahead, and observed our sentences and results both improve dramatically. A Beam Search is a compromise between the totally greedy approach which can be short-sighted and the breadth-first search approach which is not computationally tractable. Instead of choosing the best sentence at the end of each step, here we keep a  `beam' of sentences (three sentences in the beam were used in practice). At each step, for each sentence in the beam we consider the top three predictions for the next word and make nine sentences out of those, then we filter down from these nine sentences to three sentences on the basis of the combined probability for the original sentence and the added word.
 
 \subsection{Training Phase}
 In training phase, we had video-caption pairs in our dataset. Using this we first encoded the video into sequence of feature
@@ -228,7 +228,7 @@ We also did some manual testing by feeding random youtube videos and found that 
 			our model in a normal room environment and it was successfully able to give appropriate description like: ``
 			Person sitting in a chair'', ``People moving in the area'', ``Person showing the working of a computer'' etc.
 
-	\section{Background} 
+	\section{Appendix} 
 			\subsection{Deep Learning}
 				Deep Learning is a branch of machine learning in which multiple parameter based models are used in series. In a deep network, there are many layers between the input and output, allowing the algorithm to be executed in multiple processing steps, composed of \textbf{multiple linear and non-linear transformations}. At each layer, the signal is transformed by a processing unit, like an artificial neuron, whose parameters are \textbf{`learned'} through training. Deep Learning has been shown to excel in tasks where the goal is to find \textbf{intuitive} patterns in the data.\cite{deep} In particular, in the field of Computer Vision, deep networks are increasingly used to extract \textbf{feature descriptions and inter-relationships between features} from images.\cite{cs231n}
 				\begin{figure}[ht!]
@@ -259,23 +259,23 @@ We also did some manual testing by feeding random youtube videos and found that 
 					\caption{A single LSTM unit\label{fig6}}
 				\end{figure}
 				Long Short Term Memory Networks are a type of Recurrent Neural Networks. These networks are based upon recursion, so that variable length inputs can be handled easily and sequential information can be processed with better results. LSTM's are specifically used for making RNNs learn long term patterns since traditional RNNs tend to \textbf{favour short term temporal dynamics}. It can be difficult to train traditional RNNs to learn long-term dynamics, likely due in part to the \textbf{vanishing and exploding gradients problem} that can result from propagating the gradients down through the many layers of the recurrent network, each corresponding to a particular time step\cite{ltms}. LSTMs provide a solution by incorporating memory units that explicitly allow the network to learn when to ``forget'' previous hidden states and when to update hidden states given new information\cite{lstmexecute}.\\
-%				Below we list the main equations governing the behaviour of the LSTM networks.\\
-%				\begin{align}
-%					f_{t} &= \sigma_{g}(W_{f}x_{t} + U_{f}h_{t-1} + b_{f})\\	
-%					i_{t} &= \sigma_{g}(W_{i}x_{t} + U_{i}h_{t-1} + b_{i})\\
-%					o_{t} &= \sigma_{g}(W_{o}x_{t} + U_{o}h_{t-1} + b_{o})\\
-%					c_{t} &= f_{t} \circ c_{t-1} + i_{t} \circ \sigma_{c}(W_{c}x_{t} + U_{c}h_{t-1} + b_{c})\\
-%					h_{t} &= o_{t} \circ \sigma_{h}(c_{t})
-%				\end{align}
-%				The symbol meanings are:\\
-%	$\mathbf{x_{t}}$: Input vector\\
-%    $\mathbf{h_{t}}$: Output vector\\
-%    $\mathbf{c_{t}}$: Cell state vector\\
-%    $\mathbf{W}$, $\mathbf{U}$ and $\mathbf{b}$: Parameter matrices and vector\\
-%    $\mathbf{f_{t}}$: Forget gate vector. Weight of remembering old information.\\
-%    $\mathbf{i_{t}}$: Input gate vector. Weight of acquiring new information.\\
-%    $\mathbf{o_{t}}$: Output gate vector. Output candidate\\
-%    $\mathbf{\sigma_{g}}$, $\mathbf{\sigma_{c}}$ and $\mathbf{\sigma_{h}}$: Activation functions\\
+				Below we list the main equations governing the behaviour of the LSTM networks.\\
+				\begin{align}
+					f_{t} &= \sigma_{g}(W_{f}x_{t} + U_{f}h_{t-1} + b_{f})\\	
+					i_{t} &= \sigma_{g}(W_{i}x_{t} + U_{i}h_{t-1} + b_{i})\\
+					o_{t} &= \sigma_{g}(W_{o}x_{t} + U_{o}h_{t-1} + b_{o})\\
+					c_{t} &= f_{t} \circ c_{t-1} + i_{t} \circ \sigma_{c}(W_{c}x_{t} + U_{c}h_{t-1} + b_{c})\\
+					h_{t} &= o_{t} \circ \sigma_{h}(c_{t})
+				\end{align}
+				The symbol meanings are:\\
+	$\mathbf{x_{t}}$: Input vector\\
+    $\mathbf{h_{t}}$: Output vector\\
+    $\mathbf{c_{t}}$: Cell state vector\\
+    $\mathbf{W}$, $\mathbf{U}$ and $\mathbf{b}$: Parameter matrices and vector\\
+    $\mathbf{f_{t}}$: Forget gate vector. Weight of remembering old information.\\
+    $\mathbf{i_{t}}$: Input gate vector. Weight of acquiring new information.\\
+    $\mathbf{o_{t}}$: Output gate vector. Output candidate\\
+    $\mathbf{\sigma_{g}}$, $\mathbf{\sigma_{c}}$ and $\mathbf{\sigma_{h}}$: Activation functions\\
 		
 			\subsection{Training Deep Neural Networks}
 					\begin{figure}[ht!]
@@ -333,6 +333,14 @@ We also did some manual testing by feeding random youtube videos and found that 
 
 		\bibitem{fullyconnected} Santanu Chaudhury, Anupama Mallik, Hiranmay Ghosh {\em Multimedia Ontology: Representation and Applications
 		} 
+		\bibitem{msrvtt}   Jun Xu, Tao Mei,  Ting Yao,  Yong Rui {\em MSR-VTT: A Large Video Description Dataset for Bridging Video and Language} CVPR 2016
+		\bibitem{gnmt}
+		Wu et al
+		{ \em Google's Neural Machine Translation System: Bridging the Gap between Human and Machine Translation} CoRR, vol. abs/1609.08144 (2016)
+		
+	\bibitem{glove} Jeffrey Pennington,   Richard Socher,   Christopher D. Manning  {\em GloVe: Global Vectors for Word Representation } 2014
+
+
 
 	\end{thebibliography}
 \end{document}
