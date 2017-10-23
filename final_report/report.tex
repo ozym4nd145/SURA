@@ -184,6 +184,22 @@ We tried a lot of different approaches to improve the model, some of the promisi
 
 \section{Results}
 
+The evaluation is done according to different metrics popular in the community. Below we have listed some of our models and their performance and the state of the art models and their performance. As can be seen our model performs near the state of the art and even beats them in one metric.\\\\
+\begin{tabular}{l*{6}{|c|}r}
+Model              & Bleu@1 & Bleu@3 & Bleu@4 & Meteor &  CIDEr & ROUGEL \\
+\hline
+Our Final Model & 0.782 & 0.498 & 0.381 & 0.278 & 0.457 & 0.59  \\
+Using GloVe Embedding         & 0.785 & 0.499 & 0.380 &  0.276 & 0.445 &  0.590 \\
+Using Attention Model           & 0.761  & 0.469 & 0.354 &  0.260 & 0.397 &  0.575  \\
+Without Beam Search     & 0.774 & 0.476 & 0.358 &  0.274 & 0.421 &  0.579  \\
+\hline
+VideoLAB     & -  & - & 0.391 &  0.277 & 0.441 &  0.606  \\
+v2t\_navigator     & - & - & 0.408 &  0.282 & 0.448 &  0.609  \\
+\hline \\
+\end{tabular}
+
+We also did some manual testing by feeding random youtube videos and found that our model gave sensible and reasonable results.
+
 \section{Summary}
 	In our SURA, we have successfully created an end to end pipeline that, given a video, automatically
 	generates a reasonable description in plain English. It is based on a convolution neural network that
