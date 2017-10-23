@@ -71,7 +71,10 @@ In this project we created an end to end Neural Network pipeline which generates
 
 	\section{Past Work}
 
-		Much of the prior work in this field is focused on generating natural language descriptions from images. Recently the use of an end to end deep neural network architecture which takes an image as input and generates an english description has  been shown to give excellent results. We extended this approach to a Video Description network which takes in a sequence of frames as input and generates an english description of the actions happening in the video. For this we use an encoder-decoder framework widely used in Machine Translation, which maps a variable length input to a variable length output. 
+	Much of the prior work in this field is focused on generating natural language descriptions from images. Recently the use of an end to end deep neural network architecture which takes an image as input and generates an english description has  been shown to give excellent results. Vinyals et al.\cite{showandtell} gave a end to end pipeline for image description
+	task which produced excellent results. Wu et al.\cite{gnmt} gave a end-to-end learning approach for automated language
+	translation. Subhashini et al.\cite{s2vt} used a two layered LSTM\cite{ltms} structure for video translation on MSVD dataset.\\
+	We extend this approach to a Video Description network which takes in a sequence of frames as input and generates an english description of the actions happening in the video. For this we use an encoder-decoder framework widely used in Machine Translation\cite{gnmt}, which maps a variable length input to a variable length output.
 
 	\section{Data}
 The data used is a crucial factor in the effectiveness of a complex neural network like ours. We primarily used the following two datasets for training and validation purposes.
