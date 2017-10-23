@@ -89,6 +89,8 @@ The data used is a crucial factor in the effectiveness of a complex neural netwo
 	Our approach to video description was motivated by the recent successful approach of using Encoder-Decoder system in Image Description.
 	Our pipeline consisted of a CNN network that extracted features from the individual video frames, one LSTM network which encoded these features into a fixed length feature vector and another LSTM network which decoded the feature vector into a natural language description.
 
+
+				
 \subsection{Word Embeddings}
 To generate sentences we need a vocabulary, we use a vocabulary which consists of about 13000 words as well as punctuation marks. We also add two special tokens $\langle$Start$\rangle$ and $\langle$End$\rangle$ to the vocabulary to represent the beginning and end of a sentence. Since a simple one-hot representation of a word is very sparse and unstructured, we use a fully connected layer (called the ``embedding layer'' to convert a word to a dense vector space. We experimented with different embedding methods, including random initialization of a trainable embedding layer and using pretrained GloVe or Word2Vec embeddings. Empirically we found out that using pretrained embeddings gives almost identical results to randomly initializing the embedding layer and training it within our pipeline.\\
 At the output stage we need another matrix to decode the outputs to words and we used another fully connected layer which gives an output of length vocabulary size with each element representing the probability of that word being generated. Note that while it may seem reasonable to use the same weights in the embedding and decoding layers as first sight, such an approach gives poor results in our experiments since the vector space of embedding outputs and the vector space of decoding inputs are different and unrelated to each other.
@@ -176,11 +178,6 @@ We tried a lot of different approaches to improve the model, some of the promisi
 \item \textbf{Changing Loss Function: } The loss function we use is a tad simplistic since it depends a lot on word positioning. So for example if the desired output is "A man catches a ball" and the network outputs "A ball is caught by a man" our loss function will give a very high loss even though the two sentences seem to be same. To improve this we thought of using n-grams to compare sentences like in the BLEU algorithm. Unfortunately even a simple implementation of this was not able to run well using the GPU and thus was basically useless since it would stretch our training time from 10 hours to a week at least.
 \end{enumerate}
 
-				\begin{figure}[ht!]
-				\centering
-					\includegraphics[width=10cm]{s2vt.png}
-					\caption{Video description model with 2 LSTM levels\label{fig1}}
-				\end{figure}
 
 \section{Results}
 
