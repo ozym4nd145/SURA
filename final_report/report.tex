@@ -186,7 +186,16 @@ We tried a lot of different approaches to improve the model, some of the promisi
 \section{Results}
 
 \section{Summary}
-	
+	In our SURA, we have successfully created an end to end pipeline that, given a video, automatically
+	generates a reasonable description in plain English. It is based on a convolution neural network that
+	encodes the video into a compact representation, followed by a recurrent neural network that encodes
+	this representation into a fixed length vector and ending with a recurrent neural network the decodes this
+	representation into the corresponding sentence. The model is trained to maximize the likelihood of the description
+	given the video as input. We also experimented with various techniques like attention models, residual networks and 
+	found mixed results. We further found that the results strongly depended on the amount of training data available and
+	that as the size of the available datasets for video description increases, so will the performance of this model.
+	Furthermore, it will be interesting to use this model in areas like automated video surveillance once the dataset
+	for the same become publicly available.
 
 	\section{Uses and applications}
 			\begin{itemize}
