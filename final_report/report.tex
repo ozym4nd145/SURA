@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{titlepic}
@@ -60,7 +60,7 @@
 	\newpage
 
 	\section{Introduction}
-		\textit{\textbf{Video Description}} is the process of discovering knowledge, structures, patterns and events of interest in the video data and describing them in natural language. Video Description is an open problem in computer vision and currently the only source of video description is manual labour. 
+		\textit{\textbf{Video Description}} is the process of discovering knowledge, structures, patterns and events of interest in video data and generating a description of them in natural human language. Video Description is an open problem in computer vision and currently the predominant source of video description is manual human work. 
 		\newline
 		Video Description has wide variety of applications. It can help visually impaired people ``see'' the world by describing the scene around them. It has also use in automated surveillance by analyzing the videos in real time and reporting malicious or unusual activities. It can also be used to efficiently index large video databases based upon their content for ease of accessibility.
 
@@ -69,7 +69,7 @@
 		\includegraphics[width=1.0\textwidth]{description.png}
 		\caption{Sample Video Description\label{fig0}}
 		\end{figure}		
-
+In this project we created an end to end Neural Network pipeline which generates an english sentence from a given input video clip. This pipeline is inspired by the recent success of Convolutional Neural Networks in image analysis and that of Sequence to Sequence Recurrent Neural Networks in Machine Translation. Our network can be thought of as translating between a video clip and an english sentence, wherein individual frames of the video are ``words'' in the video language. Since our network is end to end we have a combined loss function for the whole network based on the sentence returned by the network and the desired sentence. Finally we use an Adam Optimizer and backpropagation through the network to optimize the weights. In practice the Convolutional Neural Networks are too big to be trained using the limited video clip datasets we have and thus we use a CNN that has already been trained on the separate task of image classification for which there is a huge dataset called Imagenet.
 
 	\section{Past Work}
 
@@ -85,7 +85,7 @@ The data used is a crucial factor in the effectiveness of a complex neural netwo
 		\end{enumerate}
 		Both of these datasets consist of short Youtube video clips (average length near 20 seconds) and english sentences (average length near 12 words) describing the clips. Most of the video clips also have a synchronized audio clip which we utilize in some of our experiments. 
 		Empirically we found out that these datasets were big enough for our network to learn proper English language sentence structure and grammar automatically, and the sentences we return are almost always gramatically correct. The datasets also identify a wide host of objects and actions which make the network applicable in general situations.\\
-		The main problem with these datasets is that they were not properly sampled and thus there was an inherent bias towards the types of videos seen on Youtube as opposed to those encountered in the real world. For example, the datasets had a large amount of videos of video games which often involve rapidly changing frames and our network began to associate things like car crashes to video game clips. 
+		The main problem we faced with these datasets was that they were not properly sampled and thus there was an inherent bias towards the types of videos seen on Youtube as opposed to those encountered in the real world. For example, the datasets had a large amount of videos of video games which often involve rapidly changing frames and our network began to associate things like car crashes to video game clips. 
 \section{Methods}
 \subsection{Overall Approach}
 	Our approach to video description was motivated by the recent successful approach of using Encoder-Decoder system in Image Description.
@@ -125,10 +125,26 @@ Initially we used a greedy approach to sentence formation by taking the word wit
 
 \subsection{Training Phase}
 
+Loss Function Write 
+
 
 \subsection{Inference Phase}
 
 \subsection{Dealing with Overfitting}
+
+The main problem we had to deal with throughout the project was overfitting. This is a phenomenon where the Neural Network becomes attuned to the training data itself, rather than learning patterns that can generalize easily to new inputs. This is akin to a student memorizing answers to questions from a guide book and not being able to answer new questions easily. A characteristic indication of overfitting is that the training loss is much less than the validation loss. The main factor influencing overfitting is the \textit{complexity} of the model which is basically the number of trainable parameters in the model and the training method employed. A neural network which is too complex for the problem it is designed to solve will utilize the remaining degrees of freedom to provide lower loss in response to specific training data samples. Also if the network is trained too long or with a poorly designed optimizer it may become specific to training data.\\
+
+To deal with overfitting we experimented a lot and found the following approaches to be very useful. 
+\begin{enumerate}
+\item \textbf{Adjusting Complexity :} Reducing our LSTM encoder decoder network from a four layer network to a two layer network was very helpful in reducing overfitting. We also reduced the number of parameters is the fully connected layers by reducing the word embedding size.  
+\item \textbf{Dropout :} Dropout layers take a vector as input and reuturn a vector where each element is either zero with a certain probability or the original value. Dropout helps with overfitting because even  when the same input is fed multiple times into the network the parameters influencing the output may be different each time. We used a Droput Wrapper on our LSTM cells which makes a certain fraction (we used 0.4) of the LSTM ouputs zero and found that it reduced overfitting.
+\item \textbf{Proper Training :} The choice of optimizer is important and thus we decided to use Adam Optimizer which maintains a separate learning rate for each parameter of the model and keeps reducing the rate with time. This keeps the parameters from oscillating wildly and helps with overfitting. We also took care to train the model only as far as it reduced the validation loss and stop when the validation loss started to increase which indicates overfitting.
+
+\end{enumerate}
+
+
+With all these implemented, ovefitting was a much smaller problem then before and our training loss was mostly near our validation loss.
+\subsection{Other experiments}
 
 
 				\begin{figure}[ht!]
@@ -137,7 +153,9 @@ Initially we used a greedy approach to sentence formation by taking the word wit
 					\caption{Video description model with 2 LSTM levels\label{fig1}}
 				\end{figure}
 
-			
+\section{Results}
+
+\section{Summary}
 	
 
 	\section{Uses and applications}
