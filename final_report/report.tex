@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+\documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{titlepic}
@@ -48,15 +48,13 @@
 \noindent\rule{3.2cm}{0.4pt} 
 \end{center}
 
-\begin{flushright}
-\noindent\rule{3.2cm}{0.4pt} 
-\\ \textbf{Prof. S. Arun Kumar}
-\\ Head of Department
-\\ Department of CSE
-\\ sak@cse.iitd.ernet.in
-\end{flushright}
-
-
+% \begin{flushright}
+% \noindent\rule{3.2cm}{0.4pt} 
+% \\ \textbf{Prof. S. Arun Kumar}
+% \\ Head of Department
+% \\ Department of CSE
+% \\ sak@cse.iitd.ernet.in
+% \end{flushright}
 	\newpage
 
 	\section{Introduction}
@@ -92,7 +90,7 @@ The data used is a crucial factor in the effectiveness of a complex neural netwo
 	Our pipeline consisted of a CNN network that extracted feateures from the individual video frames, one LSTM network which encoded these features into a fixed length feature vector and another LSTM network which decoded the feature vector into a natural language description.
 
 \subsection{Word Embeddings}
-To generate sentences we need a vocabulary, we use a vocabulary which consists of about 13000 words as well as punctuation marks. We also add two special tokens <Start> and <End> to the vocabulary to represent the beggining and end of a sentence. Since a simple one-hot representation of a word is very sparse and unstructured, we use a fully connected layer (called the ``embedding layer'' to convert a word to a dense vector space. We experimented with different embedding methods, including random initialization of a trainable embedding layer and using pretrained GloVe or Word2Vec embeddings. Empirically we found out that using pretrained embeddings gives almost identical results to randomly initializing the embedding layer and training it within our pipeline.\\
+To generate sentences we need a vocabulary, we use a vocabulary which consists of about 13000 words as well as punctuation marks. We also add two special tokens $\langle$Start$\rangle$ and $\langle$End$\rangle$ to the vocabulary to represent the beggining and end of a sentence. Since a simple one-hot representation of a word is very sparse and unstructured, we use a fully connected layer (called the ``embedding layer'' to convert a word to a dense vector space. We experimented with different embedding methods, including random initialization of a trainable embedding layer and using pretrained GloVe or Word2Vec embeddings. Empirically we found out that using pretrained embeddings gives almost identical results to randomly initializing the embedding layer and training it within our pipeline.\\
 At the output stage we need another matrix to decode the outputs to words and we used another fully connected layer which gives an output of length vocabulary size with each element representing the probability of that word being generated. Note that while it may seem reasonable to use the same weights in the embedding and decoding layers as first sight, such an approach gives poor results in our experiments since the vector space of embedding outputs and the vector space of decoding inputs are different and unrelated to each other.
 
 \subsection{Video Feature Extraction}
@@ -120,15 +118,39 @@ At the output stage we need another matrix to decode the outputs to words and we
 	Apart from the above, we also experimented with dropout in between layers and also experimented with audio features concatenated with
 	video features.
 \subsection{Decoding to Natural Language}
-The previous stage gives us a fixed length feature vector which represents the whole video clip. We use this feature vector as the initial hidden state of our decoder LSTM network. After this we feed words (embedded in a vector space as described above) one by one into the LSTM, which gives the next word. There is a special <Start> token which represents the beginning of a sentence and is always the first one to be given as input. The ouput word is deduced from the output of the LSTM network using a fully connected layer with softmax activation, which results in a vector of length equal to the size of our vocabulary and where each element can be interpreted as the probability of that word coming next in the sentence.\\
+The previous stage gives us a fixed length feature vector which represents the whole video clip. We use this feature vector as the initial hidden state of our decoder LSTM network. After this we feed words (embedded in a vector space as described above) one by one into the LSTM, which gives the next word. There is a special $\langle$Start$\rangle$ token which represents the beginning of a sentence and is always the first one to be given as input. The ouput word is deduced from the output of the LSTM network using a fully connected layer with softmax activation, which results in a vector of length equal to the size of our vocabulary and where each element can be interpreted as the probability of that word coming next in the sentence.\\
 Initially we used a greedy approach to sentence formation by taking the word with maximum probability at the output of  each step, adding it to our sentence and feeding it as input in the next step. This approach often resulted in convoluted and inaccurate sentences, since some degree of look-ahead is needed for proper sentence structure. Finally we used \textbf{Beam Search Decoder} to provide us with a  certain amount of look-ahead, and observed our sentences and results both improve dramatically. A Beam Search is a compromise between the totally greedy approach which can be short-sighted and the breadth-first search approach which is not computationally tractable. Instead of choosing the best setence at the end of each step, here we keep a  `beam' of sentences (three sentences in the beam were used in practice). At each step, for each sentence in the beam we consider the top three predictions for the next word and make nine sentences out of those, then we filter down from these nine sentences to three sentences on the basis of the combined probability for the original sentence and the added word.
 
 \subsection{Training Phase}
-
-Loss Function Write 
-
+In traning phase, we had video-caption pairs in our dataset. Using this we first encoded the video into sequence of feature
+vectors and after encoding these frames using encoder network we pass the hidden state into the decoder lstm. In this we first
+pass the start token $\langle$Start$\rangle$ with the hidden state corresponding to the last encoder lstm unit. The 
+decoder lstm unit gave the probability of each word in our vocabulary being the next word in a vector of the size 
+of our vocab. At each step we fed the next from correct description into the lstm unit and recorded its output.
+Our loss is the sum of the negative log likelihood of the correct word at each step as follows:
+$$
+	L(V,S) = - \sum_{t=1}^{N}{\log{p_t(S_t)}}
+$$
+Where,\\
+$V$ = Input Video\\
+$S$ = Correct caption of video $V$. It is a sequence of words $(S_0,S_1,\ldots,S_N)$\\
+$L(V,S)$ = Loss corresponding to video caption pair (V,S)\\
+$p_t(S_t)$ = Probability of word $S_t$ in the output of LSTM unit at time $t$.\\\\
+The above loss is minimized w.r.t. all the parameters of the Encoder LSTM unit, Decoder LSTM unit,
+the top layer of the image embedder CNN and word embeddings.
 
 \subsection{Inference Phase}
+We used multiple approaches for inference phase for generating a sentence given a video.
+\\The first one was \textbf{Sampling} where we just sample the first word according to p1, then provide the corresponding embedding
+as input and sample p2, continuing like this until we sample
+the special end-of-sentence token $\langle$End$\rangle$ or some maximum length.
+\\The second one is \textbf{BeamSearch}: iteratively consider the set of the k best sentences up to time t as candidates to generate
+sentences of size t + 1, and keep only the resulting best k
+of them.
+We used the BeamSearch approach in the following experiments,
+with a beam of size upto 10. Using a beam size of 1 (i.e.,
+greedy search) did degrade our results.
+
 
 \subsection{Dealing with Overfitting}
 
