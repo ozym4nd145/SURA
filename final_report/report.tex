@@ -104,9 +104,9 @@ At the output stage we need another matrix to decode the outputs to words and we
 	detection in images and thus they form a natural choice in extracting features from images. Also, since videos are a sequences of images, we
 	down-sample video frames at a fixed frame rate and then individually extract features from each video frame and concatenate them to get 
 	the feature vector of the video.\\
-	We used Inception V4 net as our choice of CNN for video feature extraction as it has shown the best results in ImageNet challenge and is thus
+	We used Inception V4\cite{inceptionv4} as our choice of CNN for video feature extraction as it has shown the best results in ImageNet challenge and is thus
 	more likely to give better feature extraction from image frames. We also experimented with audio features in the video. Specifically we looked
-	at the MFCC features of the audio and we processed these features along with image features in our encoder network to get better representation
+	at the MFCC features\cite{audio} of the audio and we processed these features along with image features in our encoder network to get better representation
 	of the video. But we later abandoned this approach as it did not show any significant improvement in the results and also added audio dependency
 	to our network which would have made this un-usable in the case of video surveillance and other areas where audio is not available.
 	
@@ -117,14 +117,14 @@ At the output stage we need another matrix to decode the outputs to words and we
 	\begin{itemize}
 		\item Single layer LSTM network
 		\item Multi layered LSTM network (2-5 layers)
-		\item Residual multi Layered LSTM network
+		\item Residual multi layered LSTM network
 		\item Encoder network with attention model
 	\end{itemize}
 	Apart from the above, we also experimented with dropout in between layers and also experimented with audio features concatenated with
 	video features.
 \subsection{Decoding to Natural Language}
 The previous stage gives us a fixed length feature vector which represents the whole video clip. We use this feature vector as the initial hidden state of our decoder LSTM network. After this we feed words (embedded in a vector space as described above) one by one into the LSTM, which gives the next word. There is a special $\langle$Start$\rangle$ token which represents the beginning of a sentence and is always the first one to be given as input. The output word is deduced from the output of the LSTM network using a fully connected layer with softmax activation, which results in a vector of length equal to the size of our vocabulary and where each element can be interpreted as the probability of that word coming next in the sentence.\\
-Initially we used a greedy approach to sentence formation by taking the word with maximum probability at the output of  each step, adding it to our sentence and feeding it as input in the next step. This approach often resulted in convoluted and inaccurate sentences, since some degree of look-ahead is needed for proper sentence structure. Finally we used Beam Search Decoder to provide us with a  certain amount of look-ahead, and observed our sentences and results both improve dramatically. A Beam Search is a compromise between the totally greedy approach which can be short-sighted and the breadth-first search approach which is not computationally tractable. Instead of choosing the best sentence at the end of each step, here we keep a  `beam' of sentences (three sentences in the beam were used in practice). At each step, for each sentence in the beam we consider the top three predictions for the next word and make nine sentences out of those, then we filter down from these nine sentences to three sentences on the basis of the combined probability for the original sentence and the added word.
+Initially we used a greedy approach to sentence formation by taking the word with maximum probability at the output of  each step, adding it to our sentence and feeding it as input in the next step. This approach often resulted in convoluted and inaccurate sentences, since some degree of look-ahead is needed for proper sentence structure. Finally we used Beam Search Decoder\cite{showandtell} to provide us with a  certain amount of look-ahead, and observed our sentences and results both improve dramatically. A Beam Search is a compromise between the totally greedy approach which can be short-sighted and the breadth-first search approach which is not computationally tractable. Instead of choosing the best sentence at the end of each step, here we keep a  `beam' of sentences (three sentences in the beam were used in practice). At each step, for each sentence in the beam we consider the top three predictions for the next word and make nine sentences out of those, then we filter down from these nine sentences to three sentences on the basis of the combined probability for the original sentence and the added word.
 
 \subsection{Training Phase}
 In training phase, we had video-caption pairs in our dataset. Using this we first encoded the video into sequence of feature
@@ -177,8 +177,8 @@ We tried a lot of different approaches to improve the model, some of the promisi
 \begin{enumerate}
 
 \item \textbf{Attention Mechanism: } In any video clip it can be observed that not all frames are equally important with respect to the goal of generating a description. The earlier approach weighs all frames equally since everyone has a chance of modifying the hidden state of the encoder LSTM equally. An attention mechanism allows us to weigh some frames of the video more than others and to learn how to generate the weights from the video itself. We didn't observe extensive improvement in the dataset results with this modification. One reason could be that our datasets only consisted of short video clips and was already downsampled wrt time and thus applying attention may have lowered weightage of some important frames.
-\item \textbf{Audio Features: } In the encoding process, instead of just taking feature vectors derived from video frames we also tried to concatenate feature vectors obtained from the audio near that particular frame. For this purpose we used MFCC (Mel-frequency cepstral coefficients) which is a representation of the short-term power spectrum of a sound, based on a linear cosine transform of a log power spectrum. Here too we observed not much improvement in the results, even when we weighed the audio features equal to the video features. This indicates that even though the audio features are helping with learning but the information contained in the two is complimentary ie one can be substituted for the other. Knowing this and the fact that audio feeds are rare in many potential applications we decided to remove this feature from the final project.
-\item \textbf{Changing Loss Function: } The loss function we use is a tad simplistic since it depends a lot on word positioning. So for example if the desired output is "A man catches a ball" and the network outputs "A ball is caught by a man" our loss function will give a very high loss even though the two sentences seem to be same. To improve this we thought of using n-grams to compare sentences like in the BLEU algorithm. Unfortunately even a simple implementation of this was not able to run well using the GPU and thus was basically useless since it would stretch our training time from 10 hours to a week at least.
+\item \textbf{Audio Features: } In the encoding process, instead of just taking feature vectors derived from video frames we also tried to concatenate feature vectors obtained from the audio near that particular frame. For this purpose we used MFCC (Mel-frequency cepstral coefficients) which is a representation of the short-term power spectrum of a sound, based on a linear cosine transform of a log power spectrum\cite{audio}. Here too we observed not much improvement in the results, even when we weighed the audio features equal to the video features. This indicates that even though the audio features are helping with learning but the information contained in the two is complimentary ie one can be substituted for the other. Knowing this and the fact that audio feeds are rare in many potential applications we decided to remove this feature from the final project.
+\item \textbf{Changing Loss Function: } The loss function we use is a tad simplistic since it depends a lot on word positioning. So for example if the desired output is "A man catches a ball" and the network outputs "A ball is caught by a man" our loss function will give a very high loss even though the two sentences seem to be same. To improve this we thought of using n-grams to compare sentences like in the BLEU algorithm\cite{gnmt}. Unfortunately even a simple implementation of this was not able to run well using the GPU and thus was basically useless since it would stretch our training time from 10 hours to a week at least.
 \end{enumerate}
 
 
@@ -342,6 +342,14 @@ We also did some manual testing by feeding random youtube videos and found that 
 		{ \em Google's Neural Machine Translation System: Bridging the Gap between Human and Machine Translation} CoRR, vol. abs/1609.08144 (2016)
 		
 	\bibitem{glove} Jeffrey Pennington,   Richard Socher,   Christopher D. Manning  {\em GloVe: Global Vectors for Word Representation } 2014
+	
+\bibitem{audio} Hinton, Geoffrey, et al. {\em Deep neural networks for acoustic modeling in speech recognition: The shared views of four research groups.} IEEE Signal Processing Magazine 29.6 (2012): 82-97.
+
+
+\bibitem{inceptionv4} Christian Szegedy, Sergey Ioffe, Vincent Vanhoucke, Alex Alemi {\em Inception-v4, Inception-ResNet and the Impact of Residual Connections on Learning} abs/1602.07261
+
+
+
 
 
 
